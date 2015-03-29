@@ -1,22 +1,17 @@
 package com.game.test;
 
 import com.badlogic.gdx.Screen;
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.game.AssetsFactory;
+import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.game.characters.zombies.ZombieFactory;
 
-
-
-/*
-Hacer un sistema de stage con actores. No tenemos que reimplemntar mil veces cosas
-como eventos touch o posición x/y.
-
- */
 
 public class Test1 implements Screen {
-    private SpriteBatch batch;
+    private final ZombieFactory zombieFactory;
+    private Stage stage;
 
-    public Test1(SpriteBatch batch) {
-        this.batch = batch;
+    public Test1(Stage stage, ZombieFactory zombieFactory) {
+        this.stage = stage;
+        this.zombieFactory = zombieFactory;
     }
 
     @Override
@@ -26,9 +21,9 @@ public class Test1 implements Screen {
 
     @Override
     public void render(float delta) {
-        batch.begin();
-        batch.draw(AssetsFactory.instance().getCowboyBW(), 300, 300);
-        batch.end();
+        zombieFactory.getMetronome().update(delta);
+        stage.act();
+        stage.draw();
     }
 
     @Override

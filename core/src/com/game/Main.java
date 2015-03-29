@@ -3,19 +3,21 @@ package com.game;
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.GL20;
-import com.badlogic.gdx.graphics.g2d.Batch;
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.game.characters.zombies.ZombieFactory;
 import com.game.test.Test1;
 
 public class Main extends Game {
 
     private boolean gameStarted;
-    private SpriteBatch batch;
+    private Stage stage;
+    private Metronome metronome;
 
     @Override
 	public void create () {
         AssetsFactory.instance().loadTextures();
-        batch = new SpriteBatch();
+        stage = new Stage();
+        metronome = new Metronome();
 	}
 
     @Override
@@ -26,7 +28,7 @@ public class Main extends Game {
 
         if(!gameStarted && AssetsFactory.instance().assetsLoaded()) {
             gameStarted = true;
-            setScreen(new Test1(batch));
+            setScreen(new Test1(stage, new ZombieFactory()));
         }
     }
 }
