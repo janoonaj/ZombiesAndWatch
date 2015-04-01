@@ -12,14 +12,16 @@ public class Main extends Game {
     private boolean gameStarted;
     private Stage stage;
     private Metronome metronome;
+    private InputHandler inputHandler;
 
     @Override
 	public void create () {
         AssetsFactory.instance().loadTextures();
         stage = new Stage();
         metronome = new Metronome();
+        inputHandler = new InputHandler();
+        Gdx.input.setInputProcessor(inputHandler);
 	}
-
     @Override
     public void render() {
         Gdx.gl.glClearColor(1f, 1f, 1f, 1f);
