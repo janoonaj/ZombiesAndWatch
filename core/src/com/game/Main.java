@@ -30,7 +30,9 @@ public class Main extends Game {
 
         if(!gameStarted && AssetsFactory.instance().assetsLoaded()) {
             gameStarted = true;
-            setScreen(new Test1(stage, new ZombieFactory()));
+            //TODO: study what Test1 really needs. Maybe some stuff could be injected as weell
+            //instead of being created inside.
+            setScreen(new Test1(stage, new ZombieFactory(), inputHandler));
         }
     }
 }
