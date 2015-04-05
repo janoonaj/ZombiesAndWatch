@@ -1,11 +1,19 @@
 package com.game.test;
 
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.game.AssetsFactory;
 import com.game.InputHandler;
+import com.game.Logger;
+import com.game.board.GameBoard;
+import com.game.board.ZombieHorde;
 import com.game.characters.Cowboy;
+import com.game.characters.zombies.Zombie;
 import com.game.characters.zombies.ZombieFactory;
+
+import java.util.Random;
 
 
 public class Test1 implements Screen {
@@ -13,14 +21,32 @@ public class Test1 implements Screen {
     private Stage stage;
     private Cowboy cowboy;
     private GameBoard gameBoard;
+    private ZombieHorde zombieHorde;
 
-    public Test1(Stage stage, ZombieFactory zombieFactory, InputHandler inputHandler) {
+    public Test1(Stage stage, InputHandler inputHandler) {
         this.stage = stage;
-        this.zombieFactory = zombieFactory;
         gameBoard = new GameBoard();
+        zombieHorde = new ZombieHorde();
+        this.zombieFactory = new ZombieFactory(gameBoard);
+        createCowboy(inputHandler);
+        createWalls();
+    }
+
+    private void createCowboy(InputHandler inputHandler) {
         cowboy = new Cowboy(AssetsFactory.instance().getCowboyBW(), gameBoard);
         stage.addActor(cowboy);
         inputHandler.subscribe(cowboy);
+    }
+
+    private void createWalls() {
+        Image wall1 = new Image(AssetsFactory.instance().getWall());
+        Image wall2 = new Image(AssetsFactory.instance().getWall());
+        Vector2 pos1 = gameBoard.getWalls().get(0).getScreenCoords();
+        Vector2 pos2 = gameBoard.getWalls().get(1).getScreenCoords();
+        wall1.setPosition(pos1.x, pos1.y);
+        wall2.setPosition(pos2.x, pos2.y);
+        stage.addActor(wall1);
+        stage.addActor(wall2);
     }
 
     @Override
@@ -30,9 +56,28 @@ public class Test1 implements Screen {
 
     @Override
     public void render(float delta) {
-        zombieFactory.getMetronome().update(delta);
+        if(zombieFactory.getMetronome().update(delta)) {
+            //Create one zombie 50%
+            //Create two zombies 30%
+            int randCreateZombies = new Random().nextInt(99) + 1;
+            if(randCreateZombies <= 30) {
+                addZombieToGame(zombieFactory.createZombieLeft());
+                addZombieToGame(zombieFactory.createZombieRight());
+            } else if(randCreateZombies <= 50) {
+                if(new Random().nextBoolean()) {
+                    addZombieToGame(zombieFactory.createZombieLeft());
+                } else {
+                    addZombieToGame(zombieFactory.createZombieRight());
+                }
+            }
+        }
         stage.act();
         stage.draw();
+    }
+
+    private void addZombieToGame(Zombie zombie) {
+        stage.addActor(zombie);
+        zombieHorde.addZ(zombie);
     }
 
     @Override

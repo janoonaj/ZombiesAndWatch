@@ -3,7 +3,7 @@ package com.game.characters;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
-import com.game.test.GameBoard;
+import com.game.board.GameBoard;
 import com.game.test.Interactive;
 
 public class Cowboy extends Image implements Interactive{
@@ -35,7 +35,7 @@ public class Cowboy extends Image implements Interactive{
     }
 
     private void updatePos() {
-        Vector2 newPos = gameBoard.getScreenPos(pos);
+        Vector2 newPos = gameBoard.getScreen2Cowboy(pos);
         this.setPosition(newPos.x, newPos.y);
     }
 
