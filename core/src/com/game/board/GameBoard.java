@@ -3,7 +3,10 @@ package com.game.board;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.math.Vector2;
+import com.game.characters.zombies.Zombie;
+import com.game.scenario.Wall;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -14,13 +17,49 @@ margin - 1 - 2 - 3 - 4 - 5 - 6 - 7 - 8 - 9 - 10 - 11 - 12 - 13 - 14 - 15 - margi
 6-10 player
 8 starting point
  */
+
+
+////////////////////////
+////////////////////////
+//TODO this class does two things
+//-> Manages elements like zombies and walls
+//-> Manages screen pos / coordenades
+//
+//  REFACTOR will be needed.
+//
+////////////////////////
+////////////////////////
+
+
 public class GameBoard {
     private int cellWidth = Gdx.graphics.getWidth() / 17;
     private int screenYCenter = Gdx.graphics.getHeight() / 2;
-    private List<Integer> wallsPosition; //left side of the cell
+    private List<Cell> cells = new ArrayList<Cell>();
 
     public GameBoard() {
-        wallsPosition = Arrays.asList(6, 11);
+        for(int cellIndex = 0; cellIndex < 15; cellIndex++) {
+            cells.add(new Cell());
+        }
+    }
+
+    public void addWall(Wall wall, int pos) {
+        cells.get(pos-1).addWall(wall);
+    }
+
+    public void addZombie(int pos, Zombie zombie) {
+        cells.get(pos-1).addZombie(zombie);
+    }
+
+    public Wall getWall(int pos) {
+        return cells.get(pos-1).getWall();
+    }
+
+    public List<Zombie> getZombies(int pos) {
+        return cells.get(pos-1).getZombies();
+    }
+
+    public void removeZombie(int pos, Zombie zombie) {
+        cells.get(pos-1).removeZombie(zombie);
     }
 
     public Vector2 getScreenPosZombies(int boardPos) {
@@ -47,15 +86,6 @@ public class GameBoard {
     public PositionOnBoardVO getLeftest() {
         int leftestPos = 1;
         return new PositionOnBoardVO(getScreenPosZombies(leftestPos), leftestPos);
-    }
-
-    public List<Integer> getZombieLimits() {
-        return Arrays.asList(5, 11);
-    }
-
-    public List<PositionOnBoardVO> getWalls() {
-        return Arrays.asList(new PositionOnBoardVO(getLeftEdgeSceenPos(wallsPosition.get(0)), wallsPosition.get(0)),
-                new PositionOnBoardVO(getRightEdgeSceenPos(wallsPosition.get(1)), wallsPosition.get(1)));
     }
 
     //Returns center point of a board position.

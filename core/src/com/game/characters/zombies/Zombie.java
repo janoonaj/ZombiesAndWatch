@@ -22,15 +22,22 @@ public class Zombie extends Image implements Rhythmical {
 
     @Override
     public void work() {
-        List<Integer> limits = gameBoard.getZombieLimits();
-        if(limits.contains(boardPos)) return;
+        int nextPos = boardPos;
+        if (movement == Movement.LEFT) {
+            nextPos = boardPos - 1;
+        }
+        if (movement == Movement.RIGHT) {
+            nextPos = boardPos + 1;
+        }
+        if(gameBoard.getWall(nextPos) != null) {
+            return;
+        }
 
-        if(movement == Movement.LEFT) {
-            boardPos--;
-        }
-        if(movement == Movement.RIGHT) {
-            boardPos++;
-        }
+
+        
+
+
+        boardPos = nextPos;
         setPosition(gameBoard.getScreenPosZombies(boardPos).x, gameBoard.getScreenPosZombies(boardPos).y);
     }
 }
