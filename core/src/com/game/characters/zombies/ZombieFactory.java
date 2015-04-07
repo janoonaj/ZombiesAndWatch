@@ -30,7 +30,12 @@ public class ZombieFactory {
     public Zombie createZombie(PositionOnBoardVO pos, Movement movement, Texture texture) {
         Zombie zombie = new Zombie(texture, pos.getBoardPos(), movement, board);
         zombie.setPosition(pos.getScreenCoords().x, pos.getScreenCoords().y);
+        board.addZombie(pos.getBoardPos(), zombie);
         metronome.subscribe(zombie);
         return zombie;
+    }
+
+    public void deleteZombie(Zombie zombie) {
+        metronome.unsubscribe(zombie);
     }
 }

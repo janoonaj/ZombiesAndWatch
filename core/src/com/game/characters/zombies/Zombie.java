@@ -53,4 +53,8 @@ public class Zombie extends Image implements Rhythmical {
         gameBoard.addZombie(newPos, this);
         boardPos = newPos;
     }
+
+    public void kill() {
+        remove();
+    }
 }

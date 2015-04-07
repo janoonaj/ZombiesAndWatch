@@ -3,13 +3,9 @@ package com.game.test;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.Stage;
-import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.game.AssetsFactory;
 import com.game.InputHandler;
-import com.game.Logger;
-import com.game.board.Cell;
 import com.game.board.GameBoard;
-import com.game.board.ZombieHorde;
 import com.game.characters.Cowboy;
 import com.game.characters.zombies.Zombie;
 import com.game.characters.zombies.ZombieFactory;
@@ -23,19 +19,17 @@ public class Test1 implements Screen {
     private Stage stage;
     private Cowboy cowboy;
     private GameBoard gameBoard;
-    private ZombieHorde zombieHorde;
 
     public Test1(Stage stage, InputHandler inputHandler) {
         this.stage = stage;
         gameBoard = new GameBoard();
-        zombieHorde = new ZombieHorde();
         this.zombieFactory = new ZombieFactory(gameBoard);
         createCowboy(inputHandler);
         createWalls();
     }
 
     private void createCowboy(InputHandler inputHandler) {
-        cowboy = new Cowboy(AssetsFactory.instance().getCowboyBW(), gameBoard);
+        cowboy = new Cowboy(AssetsFactory.instance().getCowboyBW(), gameBoard, this);
         stage.addActor(cowboy);
         inputHandler.subscribe(cowboy);
     }
@@ -60,18 +54,18 @@ public class Test1 implements Screen {
 
     @Override
     public void render(float delta) {
-        if(zombieFactory.getMetronome().update(delta)) {
+        if (zombieFactory.getMetronome().update(delta)) {
             //Create one zombie 50%
             //Create two zombies 30%
             int randCreateZombies = new Random().nextInt(99) + 1;
-            if(randCreateZombies <= 30) {
-                addZombieToGame(zombieFactory.createZombieLeft());
-                addZombieToGame(zombieFactory.createZombieRight());
-            } else if(randCreateZombies <= 50) {
-                if(new Random().nextBoolean()) {
-                    addZombieToGame(zombieFactory.createZombieLeft());
+            if (randCreateZombies <= 30) {
+                stage.addActor(zombieFactory.createZombieLeft());
+                stage.addActor(zombieFactory.createZombieRight());
+            } else if (randCreateZombies <= 50) {
+                if (new Random().nextBoolean()) {
+                    stage.addActor(zombieFactory.createZombieLeft());
                 } else {
-                    addZombieToGame(zombieFactory.createZombieRight());
+                    stage.addActor(zombieFactory.createZombieRight());
                 }
             }
         }
@@ -79,9 +73,13 @@ public class Test1 implements Screen {
         stage.draw();
     }
 
-    private void addZombieToGame(Zombie zombie) {
-        stage.addActor(zombie);
-        zombieHorde.addZ(zombie);
+    public void killZombie(int boardPos) {
+        if (gameBoard.getZombies(boardPos).size() == 0) return;
+
+        Zombie zKilled = gameBoard.getZombies(boardPos).get(0);
+        gameBoard.removeZombie(boardPos, zKilled);
+        zKilled.kill();
+        zombieFactory.deleteZombie(zKilled);
     }
 
     @Override
