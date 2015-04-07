@@ -15,7 +15,10 @@ public class Metronome {
         if(currentTime >= Config.timeZombie) {
             currentTime = 0f;
             for (Rhythmical subscriber : subscribers) {
-                subscriber.work();
+                subscriber.updatePos();
+            }
+            for (Rhythmical subscriber : subscribers) {
+                subscriber.draw();
             }
             return true;
         }

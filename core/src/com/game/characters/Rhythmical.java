@@ -1,5 +1,6 @@
 package com.game.characters;
 
 public interface Rhythmical {
-    void work();
+    void updatePos();
+    void draw();
 }
