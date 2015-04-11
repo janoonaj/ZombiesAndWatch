@@ -10,11 +10,13 @@ import com.game.characters.Cowboy;
 import com.game.characters.zombies.Zombie;
 import com.game.characters.zombies.ZombieFactory;
 import com.game.scenario.Wall;
+import com.game.scenario.WallFactory;
 
 import java.util.Random;
 
 public class Test1 implements Screen {
     private final ZombieFactory zombieFactory;
+    private final WallFactory wallFactory;
     private Stage stage;
     private Cowboy cowboy;
     private GameBoard gameBoard;
@@ -23,6 +25,7 @@ public class Test1 implements Screen {
         this.stage = stage;
         gameBoard = new GameBoard();
         this.zombieFactory = new ZombieFactory(gameBoard);
+        this.wallFactory = new WallFactory(gameBoard, this);
         createCowboy(inputHandler);
         createWalls();
     }
@@ -34,14 +37,8 @@ public class Test1 implements Screen {
     }
 
     private void createWalls() {
-        Wall wall1 = new Wall(AssetsFactory.instance().getWall());
-        Wall wall2 = new Wall(AssetsFactory.instance().getWall());
-        Vector2 pos1 = gameBoard.getLeftEdgeSceenPos(6);
-        Vector2 pos2 = gameBoard.getRightEdgeSceenPos(10);
-        wall1.setPosition(pos1.x, pos1.y);
-        wall2.setPosition(pos2.x, pos2.y);
-        gameBoard.addWall(wall1, 6);
-        gameBoard.addWall(wall2, 10);
+        Wall wall1 = wallFactory.createWall(6);
+        Wall wall2 = wallFactory.createWall(10);
         stage.addActor(wall1);
         stage.addActor(wall2);
     }
@@ -77,6 +74,10 @@ public class Test1 implements Screen {
         Zombie zKilled = gameBoard.getZombies(boardPos).get(0);
         zombieFactory.deleteZombie(zKilled);
         zKilled.kill();
+    }
+
+    public void demolishWall(int boardPos) {
+        wallFactory.demolishWall(boardPos);
     }
 
     @Override

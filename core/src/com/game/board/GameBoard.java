@@ -7,7 +7,6 @@ import com.game.characters.zombies.Zombie;
 import com.game.scenario.Wall;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 /*
@@ -62,6 +61,8 @@ public class GameBoard {
         cells.get(pos-1).removeZombie(zombie);
     }
 
+    public void demolishWall(int pos) {cells.get(pos -1 ).demolishWall();}
+
     public void removeZombie(Zombie zombie) {
         for (Cell cell : cells) {
             if(cell.removeZombie(zombie)) return;
@@ -92,6 +93,14 @@ public class GameBoard {
     public PositionOnBoardVO getLeftest() {
         int leftestPos = 1;
         return new PositionOnBoardVO(getScreenPosZombies(leftestPos), leftestPos);
+    }
+
+    public int getCenterBoard() {
+        return 8;
+    }
+
+    public int getRighestPos() {
+        return 15;
     }
 
     //Returns center point of a board position.

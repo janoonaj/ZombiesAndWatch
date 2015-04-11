@@ -23,7 +23,9 @@ public class AssetsFactory {
         manager.load("cowboyColor.png", Texture.class);
         manager.load("zombieR.png", Texture.class);
         manager.load("zombieL.png", Texture.class);
-        manager.load("wall.png", Texture.class);
+        manager.load("wall_green.png", Texture.class);
+        manager.load("wall_yellow.png", Texture.class);
+        manager.load("wall_red.png", Texture.class);
     }
 
     public boolean assetsLoaded() {
@@ -38,7 +40,9 @@ public class AssetsFactory {
         return manager.get("cowboyColor.png");
     }
 
-    public Texture getWall() { return manager.get("wall.png");}
+    public Texture getWallGreen() { return manager.get("wall_green.png");}
+    public Texture getWallYellow() { return manager.get("wall_yellow.png");}
+    public Texture getWallRed() { return manager.get("wall_red.png");}
 
     public Texture getZombieLeft() {
         return manager.get("zombieL.png");

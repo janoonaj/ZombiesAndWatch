@@ -18,6 +18,8 @@ public class Cell {
         this.wall = wall;
     }
 
+    public void demolishWall() { this.wall = null; }
+
     public Wall getWall() {
         return wall;
     }
