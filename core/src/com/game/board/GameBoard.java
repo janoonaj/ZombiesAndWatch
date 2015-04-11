@@ -62,6 +62,12 @@ public class GameBoard {
         cells.get(pos-1).removeZombie(zombie);
     }
 
+    public void removeZombie(Zombie zombie) {
+        for (Cell cell : cells) {
+            if(cell.removeZombie(zombie)) return;
+        }
+    }
+
     public Vector2 getScreenPosZombies(int boardPos) {
         return new Vector2(xAt(boardPos), screenYCenter);
     }

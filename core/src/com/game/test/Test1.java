@@ -13,7 +13,6 @@ import com.game.scenario.Wall;
 
 import java.util.Random;
 
-
 public class Test1 implements Screen {
     private final ZombieFactory zombieFactory;
     private Stage stage;
@@ -54,32 +53,30 @@ public class Test1 implements Screen {
 
     @Override
     public void render(float delta) {
-        if (zombieFactory.getMetronome().update(delta)) {
-            //Create one zombie 50%
-            //Create two zombies 30%
-            int randCreateZombies = new Random().nextInt(99) + 1;
-            if (randCreateZombies <= 30) {
-                stage.addActor(zombieFactory.createZombieLeft());
-                stage.addActor(zombieFactory.createZombieRight());
-            } else if (randCreateZombies <= 50) {
-                if (new Random().nextBoolean()) {
-                    stage.addActor(zombieFactory.createZombieLeft());
-                } else {
-                    stage.addActor(zombieFactory.createZombieRight());
-                }
-            }
+        if (zombieFactory.getMetronomeLeft().update(delta)) {
+            createZombies(ZombieFactory.Side.LEFT);
+        }
+        if (zombieFactory.getMetronomeRight().update(delta)) {
+            createZombies(ZombieFactory.Side.RIGHT);
         }
         stage.act();
         stage.draw();
+    }
+
+    private void createZombies(ZombieFactory.Side side) {
+        int probabilityCreateZombie = 60;
+        int randCreateZombies = new Random().nextInt(99) + 1;
+        if (randCreateZombies <= probabilityCreateZombie) {
+            stage.addActor(zombieFactory.createZombie(side));
+        }
     }
 
     public void killZombie(int boardPos) {
         if (gameBoard.getZombies(boardPos).size() == 0) return;
 
         Zombie zKilled = gameBoard.getZombies(boardPos).get(0);
-        gameBoard.removeZombie(boardPos, zKilled);
-        zKilled.kill();
         zombieFactory.deleteZombie(zKilled);
+        zKilled.kill();
     }
 
     @Override

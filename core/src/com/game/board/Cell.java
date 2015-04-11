@@ -26,8 +26,8 @@ public class Cell {
         zombies.add(zombie);
     }
 
-    public void removeZombie(Zombie zombie) {
-        zombies.remove(zombie);
+    public boolean removeZombie(Zombie zombie) {
+        return zombies.remove(zombie);
     }
 
     public List<Zombie> getZombies() {
