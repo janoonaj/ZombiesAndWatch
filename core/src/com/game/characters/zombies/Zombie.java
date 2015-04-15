@@ -36,6 +36,11 @@ public class Zombie extends Image implements Rhythmical {
             return;
         }
 
+        if(gameBoard.getHouse(nextPos) != null) {
+            gameBoard.getHouse(nextPos).damage(Config.zombieDamage);
+            return;
+        }
+
         changePos(nextPos);
     }
 

@@ -1,5 +1,6 @@
 package com.game.scenario;
 
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.math.Vector2;
 import com.game.AssetsFactory;
 import com.game.board.GameBoard;
@@ -16,18 +17,19 @@ public class WallFactory {
     }
 
     public Wall createWall(int boardPos) {
-        Wall wall = new Wall(AssetsFactory.instance().getWallGreen(),
+        Texture wallGreen = AssetsFactory.instance().getWallGreen();
+        Wall wall = new Wall(wallGreen,
                 AssetsFactory.instance().getWallYellow(),
                 AssetsFactory.instance().getWallRed(),
                 test1,
                 boardPos);
-        gameBoard.addWall(wall, boardPos);
+        gameBoard.buildWall(wall, boardPos);
         Vector2 pos = getScreenPos(boardPos);
-        wall.setPosition(pos.x, pos.y);
+        wall.setPosition(pos.x - wallGreen.getWidth() / 2, pos.y);
         return wall;
     }
 
-    public void demolishWall(int boardPos) {
+    public void demolish(int boardPos) {
         gameBoard.demolishWall(boardPos);
     }
 

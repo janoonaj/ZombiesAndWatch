@@ -52,13 +52,14 @@ public class ZombieFactory {
 
     private Zombie riseZombie(PositionOnBoardVO pos, Movement movement, Texture texture) {
         Zombie zombie = new Zombie(texture, pos.getBoardPos(), movement, board);
-        zombie.setPosition(pos.getScreenCoords().x, pos.getScreenCoords().y);
+        zombie.setPosition(pos.getScreenCoords().x - texture.getWidth() / 2, pos.getScreenCoords().y);
         board.addZombie(pos.getBoardPos(), zombie);
         return zombie;
     }
 
     public void deleteZombie(Zombie zombie) {
         metronomeLeft.unsubscribe(zombie);
+        metronomeRight.unsubscribe(zombie);
         board.removeZombie(zombie);
     }
 }

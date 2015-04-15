@@ -7,4 +7,5 @@ public class Config {
     public static final int zombieDamage = 10;
 
     public static final int healthWall = 100;
+    public static final int healthHouse = 100;
 }

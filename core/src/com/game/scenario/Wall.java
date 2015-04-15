@@ -10,8 +10,6 @@ import com.game.test.Test1;
 import java.util.HashMap;
 
 public class Wall extends Image{
-    private final Test1 test1;
-    private final int boardPos;
 
     private enum Status {
         NORMAL(Config.healthWall),
@@ -24,6 +22,8 @@ public class Wall extends Image{
         public int getLifePoints() { return lifePoints; }
     }
 
+    private final Test1 test1;
+    private final int boardPos;
     HashMap<Status, Texture> textures = new HashMap<Status, Texture>();
     private int health = Config.healthWall;
     private Status currentStatus = Status.NORMAL;

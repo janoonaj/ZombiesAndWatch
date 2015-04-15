@@ -3,14 +3,13 @@ package com.game.characters;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
+import com.game.Logger;
 import com.game.board.GameBoard;
 import com.game.test.Interactive;
 import com.game.test.Test1;
 
 public class Cowboy extends Image implements Interactive{
 
-    private final int leftEdge = 6;
-    private final int rightEdge = 10;
     private final GameBoard gameBoard;
     private final Test1 test1;
 
@@ -20,32 +19,35 @@ public class Cowboy extends Image implements Interactive{
         super(texture);
         this.gameBoard = gameBoard;
         this.test1 = test1;
-        updatePos();
+        updateScreenPos();
     }
 
     @Override
     public void pressedLeft() {
-        if(pos == leftEdge) {
-            test1.killZombie(pos - 1);
-            return;
-        }
-        pos--;
-        updatePos();
+        doStuff(pos-1);
     }
 
     @Override
     public void pressedRight() {
-        if(pos == rightEdge) {
-            test1.killZombie(pos + 1);
-            return;
-        }
-        pos++;
-        updatePos();
+        doStuff(pos+1);
     }
 
-    private void updatePos() {
+    private void doStuff(int nextPos) {
+        if(killZombie(nextPos)) return;
+        if(nextPos == gameBoard.nonPlayableLeftEdge || nextPos == gameBoard.nonPlayableRightEdge) return;
+        pos = nextPos;
+        updateScreenPos();
+    }
+
+    private void updateScreenPos() {
         Vector2 newPos = gameBoard.getScreen2Cowboy(pos);
-        this.setPosition(newPos.x, newPos.y);
+        this.setPosition(newPos.x - this.getImageWidth() / 2, newPos.y);
+    }
+
+    private boolean killZombie(int nextPos) {
+        if(gameBoard.getZombies(nextPos).size() == 0) return false;
+        test1.killZombie(nextPos);
+        return true;
     }
 
     public int getPos() {

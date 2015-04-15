@@ -1,14 +1,15 @@
 package com.game.test;
 
 import com.badlogic.gdx.Screen;
-import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.game.AssetsFactory;
 import com.game.InputHandler;
+import com.game.Logger;
 import com.game.board.GameBoard;
 import com.game.characters.Cowboy;
 import com.game.characters.zombies.Zombie;
 import com.game.characters.zombies.ZombieFactory;
+import com.game.scenario.HouseFactory;
 import com.game.scenario.Wall;
 import com.game.scenario.WallFactory;
 
@@ -17,6 +18,7 @@ import java.util.Random;
 public class Test1 implements Screen {
     private final ZombieFactory zombieFactory;
     private final WallFactory wallFactory;
+    private final HouseFactory houseFactory;
     private Stage stage;
     private Cowboy cowboy;
     private GameBoard gameBoard;
@@ -26,8 +28,10 @@ public class Test1 implements Screen {
         gameBoard = new GameBoard();
         this.zombieFactory = new ZombieFactory(gameBoard);
         this.wallFactory = new WallFactory(gameBoard, this);
+        this.houseFactory = new HouseFactory(gameBoard, this);
         createCowboy(inputHandler);
         createWalls();
+        createHouses();
     }
 
     private void createCowboy(InputHandler inputHandler) {
@@ -37,10 +41,16 @@ public class Test1 implements Screen {
     }
 
     private void createWalls() {
-        Wall wall1 = wallFactory.createWall(6);
-        Wall wall2 = wallFactory.createWall(10);
-        stage.addActor(wall1);
-        stage.addActor(wall2);
+        stage.addActor(wallFactory.createWall(6));
+        stage.addActor(wallFactory.createWall(10));
+    }
+
+    private void createHouses() {
+        stage.addActor(houseFactory.createHouse(6));
+        stage.addActor(houseFactory.createHouse(7));
+        stage.addActor(houseFactory.createHouse(8));
+        stage.addActor(houseFactory.createHouse(9));
+        stage.addActor(houseFactory.createHouse(10));
     }
 
     @Override
@@ -70,15 +80,16 @@ public class Test1 implements Screen {
 
     public void killZombie(int boardPos) {
         if (gameBoard.getZombies(boardPos).size() == 0) return;
-
         Zombie zKilled = gameBoard.getZombies(boardPos).get(0);
         zombieFactory.deleteZombie(zKilled);
         zKilled.kill();
     }
 
     public void demolishWall(int boardPos) {
-        wallFactory.demolishWall(boardPos);
+        wallFactory.demolish(boardPos);
     }
+
+    public void demolishHouse(int boardPos) { houseFactory.demolish(boardPos);   }
 
     @Override
     public void resize(int width, int height) {

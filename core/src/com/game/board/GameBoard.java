@@ -3,7 +3,9 @@ package com.game.board;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.math.Vector2;
+import com.game.Logger;
 import com.game.characters.zombies.Zombie;
+import com.game.scenario.House;
 import com.game.scenario.Wall;
 
 import java.util.ArrayList;
@@ -33,6 +35,8 @@ margin - 1 - 2 - 3 - 4 - 5 - 6 - 7 - 8 - 9 - 10 - 11 - 12 - 13 - 14 - 15 - margi
 public class GameBoard {
     private int cellWidth = Gdx.graphics.getWidth() / 17;
     private int screenYCenter = Gdx.graphics.getHeight() / 2;
+    public int nonPlayableLeftEdge = 5;
+    public int nonPlayableRightEdge = 11;
     private List<Cell> cells = new ArrayList<Cell>();
 
     public GameBoard() {
@@ -41,8 +45,12 @@ public class GameBoard {
         }
     }
 
-    public void addWall(Wall wall, int pos) {
+    public void buildWall(Wall wall, int pos) {
         cells.get(pos-1).addWall(wall);
+    }
+
+    public void buildHouse(House house, int pos) {
+        cells.get(pos-1).addHouse(house);
     }
 
     public void addZombie(int pos, Zombie zombie) {
@@ -51,6 +59,9 @@ public class GameBoard {
 
     public Wall getWall(int pos) {
         return cells.get(pos-1).getWall();
+    }
+    public House getHouse(int pos) {
+        return cells.get(pos-1).getHouse();
     }
 
     public List<Zombie> getZombies(int pos) {
@@ -62,6 +73,10 @@ public class GameBoard {
     }
 
     public void demolishWall(int pos) {cells.get(pos -1 ).demolishWall();}
+
+    public void demolishHouse(int pos) {
+        cells.get(pos -1 ).demolishHouse();
+    }
 
     public void removeZombie(Zombie zombie) {
         for (Cell cell : cells) {

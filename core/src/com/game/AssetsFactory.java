@@ -26,6 +26,10 @@ public class AssetsFactory {
         manager.load("wall_green.png", Texture.class);
         manager.load("wall_yellow.png", Texture.class);
         manager.load("wall_red.png", Texture.class);
+        manager.load("house.png", Texture.class);
+        manager.load("hotel.png", Texture.class);
+        manager.load("farm.png", Texture.class);
+        manager.load("church.png", Texture.class);
     }
 
     public boolean assetsLoaded() {
@@ -49,6 +53,18 @@ public class AssetsFactory {
     }
     public Texture getZombieRight() {
         return manager.get("zombieR.png");
+    }
+    public Texture getHouse() {
+        return manager.get("house.png");
+    }
+    public Texture getHotel() {
+        return manager.get("hotel.png");
+    }
+    public Texture getFarm() {
+        return manager.get("farm.png");
+    }
+    public Texture getChurch() {
+        return manager.get("church.png");
     }
 
     public void dispose() {
