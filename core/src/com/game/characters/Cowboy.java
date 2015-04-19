@@ -6,6 +6,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.game.Config;
 import com.game.Logger;
 import com.game.board.GameBoard;
+import com.game.board.GameScreenPos;
 import com.game.test.Interactive;
 import com.game.test.Test1;
 
@@ -13,13 +14,15 @@ public class Cowboy extends Image implements Interactive{
 
     private final GameBoard gameBoard;
     private final Test1 test1;
+    private final GameScreenPos gameScreenPos;
 
     private int pos = 8;
 
-    public Cowboy(Texture texture, GameBoard gameBoard, Test1 test1) {
+    public Cowboy(Texture texture, GameBoard gameBoard, GameScreenPos gameScreenPos, Test1 test1) {
         super(texture);
         this.gameBoard = gameBoard;
         this.test1 = test1;
+        this.gameScreenPos = gameScreenPos;
         updateScreenPos();
     }
 
@@ -41,7 +44,7 @@ public class Cowboy extends Image implements Interactive{
     }
 
     private void updateScreenPos() {
-        Vector2 newPos = gameBoard.getScreen2Cowboy(pos);
+        Vector2 newPos = gameScreenPos.getScreen2Cowboy(pos);
         this.setPosition(newPos.x - this.getImageWidth() / 2, newPos.y);
     }
 

@@ -4,6 +4,7 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.game.Config;
 import com.game.board.GameBoard;
+import com.game.board.GameScreenPos;
 import com.game.characters.Side;
 import com.game.characters.Rhythmical;
 import com.game.test.Test1;
@@ -12,17 +13,20 @@ import java.util.Random;
 
 public class Zombie extends Image implements Rhythmical {
     private final Test1 test1;
+    private final GameScreenPos gameScreenPos;
     private int boardPos;
     private final GameBoard gameBoard;
     private final Side side;
     private int health = Config.healthZombie;
 
-    public Zombie(Texture texture, int boardPos, Side side, GameBoard gameBoard, Test1 test1) {
+    public Zombie(Texture texture, int boardPos, Side side, GameBoard gameBoard,
+                  GameScreenPos gameScreenPos, Test1 test1) {
         super(texture);
         this.boardPos = boardPos;
         this.gameBoard = gameBoard;
         this.side = side;
         this.test1 = test1;
+        this.gameScreenPos = gameScreenPos;
     }
 
     public void updatePos() {
@@ -47,8 +51,8 @@ public class Zombie extends Image implements Rhythmical {
     }
 
     public void draw() {
-        float nextX = gameBoard.getScreenPosZombies(boardPos).x - this.getImageWidth() / 2;
-        float nextY = gameBoard.getScreenPosZombies(boardPos).y;
+        float nextX = gameScreenPos.getScreenPosZombies(boardPos).x - this.getImageWidth() / 2;
+        float nextY = gameScreenPos.getScreenPosZombies(boardPos).y;
         if(gameBoard.getZombies(boardPos).size() > 1) {
             //temp "horde" effect
             nextY += new Random().nextInt(40) - 20;

@@ -33,8 +33,6 @@ margin - 1 - 2 - 3 - 4 - 5 - 6 - 7 - 8 - 9 - 10 - 11 - 12 - 13 - 14 - 15 - margi
 
 
 public class GameBoard {
-    private int cellSideLength = Gdx.graphics.getWidth() / 17;
-    private int screenYCenter = Gdx.graphics.getHeight() / 2;
     public int nonPlayableLeftEdge = 5;
     public int nonPlayableRightEdge = 11;
     private int leftestCellIndex = 1;
@@ -94,26 +92,6 @@ public class GameBoard {
         cells.get(pos-1).removeUfo();
     }
 
-    public Vector2 getScreenPosZombies(int boardPos) {
-        return new Vector2(xAt(boardPos), screenYCenter);
-    }
-
-    public Vector2 getScreenPosOvni(int boardPos) {
-        return new Vector2(xAt(boardPos), Gdx.graphics.getHeight() - cellSideLength);
-    }
-
-    public Vector2 getScreen2Cowboy(int boardPos) {
-        return new Vector2(xAt(boardPos), screenYCenter + cellSideLength);
-    }
-
-    public Vector2 getLeftEdgeSceenPos(int boardPos) {
-        return new Vector2(xLeftEdgeOf(boardPos), screenYCenter);
-    }
-
-    public Vector2 getRightEdgeSceenPos(int boardPos) {
-        return new Vector2(xRightEdgeOf(boardPos), screenYCenter);
-    }
-
     public int getCenterBoard() {
         return (rightestCellIndex + leftestCellIndex) / 2;
     }
@@ -123,18 +101,4 @@ public class GameBoard {
     }
 
     public int getLeftestPos() { return this.leftestCellIndex; }
-
-    //Returns center point of a board position.
-    private int xAt(int boardPos) {
-        return (cellSideLength * boardPos) + cellSideLength / 2;
-    }
-
-    //Returns left point of a board position
-    private int xLeftEdgeOf(int boardPos) {
-        return (cellSideLength * boardPos);
-    }
-
-    private int xRightEdgeOf(int boardPos) {
-        return (cellSideLength * boardPos + cellSideLength);
-    }
 }

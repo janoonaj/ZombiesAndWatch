@@ -6,6 +6,7 @@ import com.game.AssetsFactory;
 import com.game.Config;
 import com.game.Metronome;
 import com.game.board.GameBoard;
+import com.game.board.GameScreenPos;
 import com.game.characters.Side;
 import com.game.test.Test1;
 
@@ -15,10 +16,12 @@ public class ZombieFactory {
     private final Test1 test1;
     private final Metronome metronomeLeft = new Metronome(Config.timeZombie);
     private final Metronome metronomeRight = new Metronome(Config.timeZombie);
+    private final GameScreenPos gameScreenPos;
 
-    public ZombieFactory(GameBoard board, Test1 test1) {
+    public ZombieFactory(GameBoard board, GameScreenPos gameScreenPos, Test1 test1) {
         this.board = board;
         this.test1 = test1;
+        this.gameScreenPos = gameScreenPos;
     }
 
     public Metronome getMetronomeLeft() {
@@ -41,7 +44,7 @@ public class ZombieFactory {
 
     private Zombie createZombieRight() {
         int boardPos = board.getRighestPos();
-        Zombie zombie = riseZombie(boardPos, board.getScreenPosZombies(boardPos),
+        Zombie zombie = riseZombie(boardPos, gameScreenPos.getScreenPosZombies(boardPos),
                             Side.LEFT, AssetsFactory.instance().getZombieLeft());
         metronomeRight.subscribe(zombie);
         return zombie;
@@ -49,14 +52,14 @@ public class ZombieFactory {
 
     private Zombie createZombieLeft() {
         int boardPos = board.getLeftestPos();
-        Zombie zombie = riseZombie(boardPos, board.getScreenPosZombies(boardPos),
+        Zombie zombie = riseZombie(boardPos, gameScreenPos.getScreenPosZombies(boardPos),
                                     Side.RIGHT, AssetsFactory.instance().getZombieRight());
         metronomeLeft.subscribe(zombie);
         return zombie;
     }
 
     private Zombie riseZombie(int boardPos, Vector2 screenCoords, Side side, Texture texture) {
-        Zombie zombie = new Zombie(texture, boardPos, side, board, test1);
+        Zombie zombie = new Zombie(texture, boardPos, side, board, gameScreenPos, test1);
         zombie.setPosition(screenCoords.x - texture.getWidth() / 2, screenCoords.y);
         board.addZombie(boardPos, zombie);
         return zombie;

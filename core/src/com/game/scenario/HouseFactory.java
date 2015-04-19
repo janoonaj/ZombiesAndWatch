@@ -4,6 +4,7 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.math.Vector2;
 import com.game.AssetsFactory;
 import com.game.board.GameBoard;
+import com.game.board.GameScreenPos;
 import com.game.test.Test1;
 
 import java.util.Random;
@@ -12,10 +13,12 @@ public class HouseFactory {
 
     private final GameBoard gameBoard;
     private final Test1 test1;
+    private final GameScreenPos gameScreenPos;
 
-    public HouseFactory(GameBoard gameBoard, Test1 test1) {
+    public HouseFactory(GameBoard gameBoard, GameScreenPos gameScreenPos, Test1 test1) {
         this.gameBoard = gameBoard;
         this.test1 = test1;
+        this.gameScreenPos = gameScreenPos;
     }
 
     public House createHouse(int boardPos) {
@@ -24,7 +27,7 @@ public class HouseFactory {
                 test1,
                 boardPos);
         gameBoard.buildHouse(house, boardPos);
-        Vector2 pos = gameBoard.getScreenPosZombies(boardPos);
+        Vector2 pos = gameScreenPos.getScreenPosZombies(boardPos);
         house.setPosition(pos.x - texture.getWidth() / 2, pos.y);
         return house;
     }

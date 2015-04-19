@@ -5,6 +5,7 @@ import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.game.AssetsFactory;
 import com.game.InputHandler;
 import com.game.board.GameBoard;
+import com.game.board.GameScreenPos;
 import com.game.characters.Cowboy;
 import com.game.characters.Side;
 import com.game.characters.zombies.Zombie;
@@ -20,6 +21,7 @@ public class Test1 implements Screen {
     private final WallFactory wallFactory;
     private final HouseFactory houseFactory;
     private final UfoFactory ufoFactory;
+    private final GameScreenPos gameScreenPos;
     private Stage stage;
     private Cowboy cowboy;
     private GameBoard gameBoard;
@@ -29,17 +31,18 @@ public class Test1 implements Screen {
     public Test1(Stage stage, InputHandler inputHandler) {
         this.stage = stage;
         gameBoard = new GameBoard();
-        this.zombieFactory = new ZombieFactory(gameBoard, this);
-        this.wallFactory = new WallFactory(gameBoard, this);
-        this.houseFactory = new HouseFactory(gameBoard, this);
-        this.ufoFactory = new UfoFactory(gameBoard, this);
+        gameScreenPos = new GameScreenPos(gameBoard);
+        this.zombieFactory = new ZombieFactory(gameBoard, gameScreenPos, this);
+        this.wallFactory = new WallFactory(gameBoard, gameScreenPos, this);
+        this.houseFactory = new HouseFactory(gameBoard, gameScreenPos, this);
+        this.ufoFactory = new UfoFactory(gameBoard, gameScreenPos, this);
         createCowboy(inputHandler);
         createWalls();
         createHouses();
     }
 
     private void createCowboy(InputHandler inputHandler) {
-        cowboy = new Cowboy(AssetsFactory.instance().getCowboyBW(), gameBoard, this);
+        cowboy = new Cowboy(AssetsFactory.instance().getCowboyBW(), gameBoard, gameScreenPos, this);
         stage.addActor(cowboy);
         inputHandler.subscribe(cowboy);
     }

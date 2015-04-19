@@ -4,16 +4,19 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.math.Vector2;
 import com.game.AssetsFactory;
 import com.game.board.GameBoard;
+import com.game.board.GameScreenPos;
 import com.game.test.Test1;
 
 public class WallFactory {
 
     private final Test1 test1;
+    private final GameScreenPos gameScreenPos;
     GameBoard gameBoard;
 
-    public WallFactory(GameBoard gameBoard, Test1 test1) {
+    public WallFactory(GameBoard gameBoard, GameScreenPos gameScreenPos, Test1 test1) {
         this.gameBoard = gameBoard;
         this.test1 = test1;
+        this.gameScreenPos = gameScreenPos;
     }
 
     public Wall createWall(int boardPos) {
@@ -35,9 +38,9 @@ public class WallFactory {
 
     private Vector2 getScreenPos(int boardPos) {
         if(boardPos >= gameBoard.getCenterBoard()) {
-            return gameBoard.getRightEdgeSceenPos(boardPos);
+            return gameScreenPos.getRightEdgeSceenPos(boardPos);
         } else {
-            return gameBoard.getLeftEdgeSceenPos(boardPos);
+            return gameScreenPos.getLeftEdgeSceenPos(boardPos);
         }
     }
 }
