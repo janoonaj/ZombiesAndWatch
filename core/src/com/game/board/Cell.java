@@ -1,6 +1,7 @@
 package com.game.board;
 
 import com.game.characters.zombies.Zombie;
+import com.game.ovnis.Ufo;
 import com.game.scenario.House;
 import com.game.scenario.Wall;
 
@@ -15,6 +16,7 @@ public class Cell {
     private List<Zombie> zombies = new ArrayList<Zombie>();
     private Wall wall;
     private House house;
+    private Ufo ufo;
 
     public void addWall(Wall wall) {
         this.wall = wall;
@@ -46,5 +48,13 @@ public class Cell {
 
     public List<Zombie> getZombies() {
         return zombies;
+    }
+
+    public void removeUfo() {
+        this.ufo = null;
+    }
+
+    public void addUfo(Ufo ufo) {
+        this.ufo = ufo;
     }
 }

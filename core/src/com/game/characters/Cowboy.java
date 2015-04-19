@@ -3,6 +3,7 @@ package com.game.characters;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
+import com.game.Config;
 import com.game.Logger;
 import com.game.board.GameBoard;
 import com.game.test.Interactive;
@@ -46,7 +47,7 @@ public class Cowboy extends Image implements Interactive{
 
     private boolean killZombie(int nextPos) {
         if(gameBoard.getZombies(nextPos).size() == 0) return false;
-        test1.killZombie(nextPos);
+        gameBoard.getZombies(nextPos).get(0).damage(Config.cowboyDamage);
         return true;
     }
 

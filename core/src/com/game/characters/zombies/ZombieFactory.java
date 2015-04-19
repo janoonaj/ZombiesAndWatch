@@ -1,23 +1,24 @@
 package com.game.characters.zombies;
 
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.math.Vector2;
 import com.game.AssetsFactory;
 import com.game.Config;
 import com.game.Metronome;
 import com.game.board.GameBoard;
-import com.game.board.PositionOnBoardVO;
+import com.game.characters.Side;
 import com.game.test.Test1;
 
 //TODO: object pooling
 public class ZombieFactory {
     private final GameBoard board;
+    private final Test1 test1;
     private final Metronome metronomeLeft = new Metronome(Config.timeZombie);
     private final Metronome metronomeRight = new Metronome(Config.timeZombie);
 
-    public enum Side {RIGHT, LEFT}
-
-    public ZombieFactory(GameBoard board) {
+    public ZombieFactory(GameBoard board, Test1 test1) {
         this.board = board;
+        this.test1 = test1;
     }
 
     public Metronome getMetronomeLeft() {
@@ -39,21 +40,25 @@ public class ZombieFactory {
     }
 
     private Zombie createZombieRight() {
-        Zombie zombie = riseZombie(board.getRightest(), Movement.LEFT, AssetsFactory.instance().getZombieLeft());
+        int boardPos = board.getRighestPos();
+        Zombie zombie = riseZombie(boardPos, board.getScreenPosZombies(boardPos),
+                            Side.LEFT, AssetsFactory.instance().getZombieLeft());
         metronomeRight.subscribe(zombie);
         return zombie;
     }
 
     private Zombie createZombieLeft() {
-        Zombie zombie = riseZombie(board.getLeftest(), Movement.RIGHT, AssetsFactory.instance().getZombieRight());
+        int boardPos = board.getLeftestPos();
+        Zombie zombie = riseZombie(boardPos, board.getScreenPosZombies(boardPos),
+                                    Side.RIGHT, AssetsFactory.instance().getZombieRight());
         metronomeLeft.subscribe(zombie);
         return zombie;
     }
 
-    private Zombie riseZombie(PositionOnBoardVO pos, Movement movement, Texture texture) {
-        Zombie zombie = new Zombie(texture, pos.getBoardPos(), movement, board);
-        zombie.setPosition(pos.getScreenCoords().x - texture.getWidth() / 2, pos.getScreenCoords().y);
-        board.addZombie(pos.getBoardPos(), zombie);
+    private Zombie riseZombie(int boardPos, Vector2 screenCoords, Side side, Texture texture) {
+        Zombie zombie = new Zombie(texture, boardPos, side, board, test1);
+        zombie.setPosition(screenCoords.x - texture.getWidth() / 2, screenCoords.y);
+        board.addZombie(boardPos, zombie);
         return zombie;
     }
 

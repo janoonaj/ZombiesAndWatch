@@ -3,32 +3,34 @@ package com.game.characters.zombies;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.game.Config;
-import com.game.Logger;
 import com.game.board.GameBoard;
+import com.game.characters.Side;
 import com.game.characters.Rhythmical;
 import com.game.test.Test1;
 
-import java.util.List;
 import java.util.Random;
 
 public class Zombie extends Image implements Rhythmical {
+    private final Test1 test1;
     private int boardPos;
     private final GameBoard gameBoard;
-    private final Movement movement;
+    private final Side side;
+    private int health = Config.healthZombie;
 
-    public Zombie(Texture texture, int boardPos, Movement movement, GameBoard gameBoard) {
+    public Zombie(Texture texture, int boardPos, Side side, GameBoard gameBoard, Test1 test1) {
         super(texture);
         this.boardPos = boardPos;
         this.gameBoard = gameBoard;
-        this.movement = movement;
+        this.side = side;
+        this.test1 = test1;
     }
 
     public void updatePos() {
         int nextPos = boardPos;
-        if (movement == Movement.LEFT) {
+        if (side == Side.LEFT) {
             nextPos = boardPos - 1; if(nextPos < 1 ) return;
         }
-        if (movement == Movement.RIGHT) {
+        if (side == Side.RIGHT) {
             nextPos = boardPos + 1; if(nextPos > gameBoard.getRighestPos()) return;
         }
         if(gameBoard.getWall(nextPos) != null) {
@@ -45,7 +47,7 @@ public class Zombie extends Image implements Rhythmical {
     }
 
     public void draw() {
-        float nextX = gameBoard.getScreenPosZombies(boardPos).x;
+        float nextX = gameBoard.getScreenPosZombies(boardPos).x - this.getImageWidth() / 2;
         float nextY = gameBoard.getScreenPosZombies(boardPos).y;
         if(gameBoard.getZombies(boardPos).size() > 1) {
             //temp "horde" effect
@@ -61,7 +63,11 @@ public class Zombie extends Image implements Rhythmical {
         boardPos = newPos;
     }
 
-    public void kill() {
-        remove();
+    public void damage(int pointsOfDamage) {
+        health -= pointsOfDamage;
+        if(health <= 0) {
+            this.test1.killZombie(this);
+            remove();
+        }
     }
 }
