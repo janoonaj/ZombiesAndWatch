@@ -4,6 +4,7 @@ import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.game.AssetsFactory;
 import com.game.InputHandler;
+import com.game.board.BoardVO;
 import com.game.board.GameBoard;
 import com.game.board.GameScreenPos;
 import com.game.characters.Cowboy;
@@ -21,28 +22,26 @@ public class Test1 implements Screen {
     private final WallFactory wallFactory;
     private final HouseFactory houseFactory;
     private final UfoFactory ufoFactory;
-    private final GameScreenPos gameScreenPos;
     private Stage stage;
     private Cowboy cowboy;
-    private GameBoard gameBoard;
     private final int maxNumUFO = 1;
     private int currentNumUFO = 0;
 
     public Test1(Stage stage, InputHandler inputHandler) {
         this.stage = stage;
-        gameBoard = new GameBoard();
-        gameScreenPos = new GameScreenPos(gameBoard);
-        this.zombieFactory = new ZombieFactory(gameBoard, gameScreenPos, this);
-        this.wallFactory = new WallFactory(gameBoard, gameScreenPos, this);
-        this.houseFactory = new HouseFactory(gameBoard, gameScreenPos, this);
-        this.ufoFactory = new UfoFactory(gameBoard, gameScreenPos, this);
-        createCowboy(inputHandler);
+        GameBoard gameBoard = new GameBoard();
+        BoardVO board = new BoardVO(gameBoard, new GameScreenPos(gameBoard));
+        this.zombieFactory = new ZombieFactory(board, this);
+        this.wallFactory = new WallFactory(board, this);
+        this.houseFactory = new HouseFactory(board, this);
+        this.ufoFactory = new UfoFactory(board, this);
+        createCowboy(inputHandler, board);
         createWalls();
         createHouses();
     }
 
-    private void createCowboy(InputHandler inputHandler) {
-        cowboy = new Cowboy(AssetsFactory.instance().getCowboyBW(), gameBoard, gameScreenPos, this);
+    private void createCowboy(InputHandler inputHandler, BoardVO board) {
+        cowboy = new Cowboy(AssetsFactory.instance().getCowboyBW(), board, this);
         stage.addActor(cowboy);
         inputHandler.subscribe(cowboy);
     }

@@ -5,6 +5,7 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.game.Config;
 import com.game.Logger;
+import com.game.board.BoardVO;
 import com.game.board.GameBoard;
 import com.game.board.GameScreenPos;
 import com.game.test.Interactive;
@@ -18,11 +19,11 @@ public class Cowboy extends Image implements Interactive{
 
     private int pos = 8;
 
-    public Cowboy(Texture texture, GameBoard gameBoard, GameScreenPos gameScreenPos, Test1 test1) {
+    public Cowboy(Texture texture, BoardVO board, Test1 test1) {
         super(texture);
-        this.gameBoard = gameBoard;
+        this.gameBoard = board.gameBoard;
         this.test1 = test1;
-        this.gameScreenPos = gameScreenPos;
+        this.gameScreenPos = board.gameScreenPos;
         updateScreenPos();
     }
 
@@ -52,9 +53,5 @@ public class Cowboy extends Image implements Interactive{
         if(gameBoard.getZombies(nextPos).size() == 0) return false;
         gameBoard.getZombies(nextPos).get(0).damage(Config.cowboyDamage);
         return true;
-    }
-
-    public int getPos() {
-        return pos;
     }
 }

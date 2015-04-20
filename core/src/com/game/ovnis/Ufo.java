@@ -4,6 +4,7 @@ package com.game.ovnis;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.game.Config;
+import com.game.board.BoardVO;
 import com.game.board.GameBoard;
 import com.game.board.GameScreenPos;
 import com.game.characters.Rhythmical;
@@ -18,15 +19,13 @@ public class Ufo extends Image implements Rhythmical {
     private final Side side;
     private int health = Config.healthOvni;
 
-
-    public Ufo(Texture texture, int boardPos, Side side, GameBoard board,
-               GameScreenPos gameScreenPos, Test1 test1) {
-        super(texture);
-        this.boardPos = boardPos;
-        this.gameBoard = board;
-        this.side = side;
-        this.test1 = test1;
-        this.gameScreenPos = gameScreenPos;
+    public Ufo(Texture texture, int boardPos, Side side, BoardVO board, Test1 test1) {
+            super(texture);
+            this.boardPos = boardPos;
+            this.gameBoard = board.gameBoard;
+            this.side = side;
+            this.test1 = test1;
+            this.gameScreenPos = board.gameScreenPos;
     }
 
     @Override

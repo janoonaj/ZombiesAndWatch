@@ -3,6 +3,7 @@ package com.game.characters.zombies;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.game.Config;
+import com.game.board.BoardVO;
 import com.game.board.GameBoard;
 import com.game.board.GameScreenPos;
 import com.game.characters.Side;
@@ -19,14 +20,13 @@ public class Zombie extends Image implements Rhythmical {
     private final Side side;
     private int health = Config.healthZombie;
 
-    public Zombie(Texture texture, int boardPos, Side side, GameBoard gameBoard,
-                  GameScreenPos gameScreenPos, Test1 test1) {
+    public Zombie(Texture texture, int boardPos, Side side, BoardVO board, Test1 test1) {
         super(texture);
         this.boardPos = boardPos;
-        this.gameBoard = gameBoard;
+        this.gameBoard = board.gameBoard;
         this.side = side;
         this.test1 = test1;
-        this.gameScreenPos = gameScreenPos;
+        this.gameScreenPos = board.gameScreenPos;
     }
 
     public void updatePos() {
