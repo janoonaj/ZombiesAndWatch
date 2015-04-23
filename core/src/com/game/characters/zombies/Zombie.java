@@ -8,41 +8,44 @@ import com.game.board.GameBoard;
 import com.game.board.GameScreenPos;
 import com.game.characters.Side;
 import com.game.characters.Rhythmical;
+import com.game.miniGameEngine.GameEngine;
 import com.game.test.Test1;
 
 import java.util.Random;
 
 public class Zombie extends Image implements Rhythmical {
-    private final Test1 test1;
     private final GameScreenPos gameScreenPos;
+    private final GameEngine gameEngine;
     private int boardPos;
     private final GameBoard gameBoard;
     private final Side side;
     private int health = Config.healthZombie;
 
-    public Zombie(Texture texture, int boardPos, Side side, BoardVO board, Test1 test1) {
+    public Zombie(Texture texture, int boardPos, Side side, BoardVO board, GameEngine gameEngine) {
         super(texture);
         this.boardPos = boardPos;
         this.gameBoard = board.gameBoard;
         this.side = side;
-        this.test1 = test1;
+        this.gameEngine = gameEngine;
         this.gameScreenPos = board.gameScreenPos;
     }
 
     public void updatePos() {
         int nextPos = boardPos;
         if (side == Side.LEFT) {
-            nextPos = boardPos - 1; if(nextPos < 1 ) return;
+            nextPos = boardPos - 1;
+            if (nextPos < 1) return;
         }
         if (side == Side.RIGHT) {
-            nextPos = boardPos + 1; if(nextPos > gameBoard.getRighestPos()) return;
+            nextPos = boardPos + 1;
+            if (nextPos > gameBoard.getRighestPos()) return;
         }
-        if(gameBoard.getWall(nextPos) != null) {
+        if (gameBoard.getWall(nextPos) != null) {
             gameBoard.getWall(nextPos).damage(Config.zombieDamage);
             return;
         }
 
-        if(gameBoard.getHouse(nextPos) != null) {
+        if (gameBoard.getHouse(nextPos) != null) {
             gameBoard.getHouse(nextPos).damage(Config.zombieDamage);
             return;
         }
@@ -53,7 +56,7 @@ public class Zombie extends Image implements Rhythmical {
     public void draw() {
         float nextX = gameScreenPos.getScreenPosZombies(boardPos).x - this.getImageWidth() / 2;
         float nextY = gameScreenPos.getScreenPosZombies(boardPos).y;
-        if(gameBoard.getZombies(boardPos).size() > 1) {
+        if (gameBoard.getZombies(boardPos).size() > 1) {
             //temp "horde" effect
             nextY += new Random().nextInt(40) - 20;
             nextX += new Random().nextInt(10) - 5;
@@ -69,8 +72,8 @@ public class Zombie extends Image implements Rhythmical {
 
     public void damage(int pointsOfDamage) {
         health -= pointsOfDamage;
-        if(health <= 0) {
-            this.test1.killZombie(this);
+        if (health <= 0) {
+            this.gameEngine.killZombie(this);
             remove();
         }
     }

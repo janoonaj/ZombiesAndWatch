@@ -9,22 +9,23 @@ import com.game.board.GameBoard;
 import com.game.board.GameScreenPos;
 import com.game.characters.Rhythmical;
 import com.game.characters.Side;
+import com.game.miniGameEngine.GameEngine;
 import com.game.test.Test1;
 
 public class Ufo extends Image implements Rhythmical {
-    private final Test1 test1;
+    private final GameEngine gameEngine;
     private final GameScreenPos gameScreenPos;
     private int boardPos;
     private final GameBoard gameBoard;
     private final Side side;
     private int health = Config.healthOvni;
 
-    public Ufo(Texture texture, int boardPos, Side side, BoardVO board, Test1 test1) {
+    public Ufo(Texture texture, int boardPos, Side side, BoardVO board, GameEngine gameEngine) {
             super(texture);
             this.boardPos = boardPos;
             this.gameBoard = board.gameBoard;
             this.side = side;
-            this.test1 = test1;
+            this.gameEngine = gameEngine;
             this.gameScreenPos = board.gameScreenPos;
     }
 

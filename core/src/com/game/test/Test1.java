@@ -5,6 +5,7 @@ import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.game.AssetsFactory;
 import com.game.miniGameEngine.FactoriesVO;
 import com.game.InputHandler;
+import com.game.miniGameEngine.GameEngine;
 import com.game.miniGameEngine.MiniGameUpdater;
 import com.game.board.BoardVO;
 import com.game.board.GameBoard;
@@ -22,6 +23,7 @@ public class Test1 implements Screen {
     private final HouseFactory houseFactory;
     private final UfoFactory ufoFactory;
     private final MiniGameUpdater updater;
+    private final GameEngine gameEngine;
     private Stage stage;
     private Cowboy cowboy;
     private final int numMaxUfo = 1;
@@ -30,15 +32,16 @@ public class Test1 implements Screen {
         this.stage = stage;
         GameBoard gameBoard = new GameBoard();
         BoardVO board = new BoardVO(gameBoard, new GameScreenPos(gameBoard));
-        this.zombieFactory = new ZombieFactory(board, this);
-        this.wallFactory = new WallFactory(board, this);
-        this.houseFactory = new HouseFactory(board, this);
-        this.ufoFactory = new UfoFactory(board, this);
+        this.zombieFactory = new ZombieFactory(board);
+        this.wallFactory = new WallFactory(board);
+        this.houseFactory = new HouseFactory(board);
+        this.ufoFactory = new UfoFactory(board);
+        FactoriesVO factories = new FactoriesVO(zombieFactory, ufoFactory, wallFactory, houseFactory);
+        updater = new MiniGameUpdater(stage, factories, numMaxUfo);
+        gameEngine = new GameEngine(factories);
         createCowboy(inputHandler, board);
         createWalls();
         createHouses();
-        updater = new MiniGameUpdater(stage, new FactoriesVO(zombieFactory, ufoFactory),
-                                                            numMaxUfo);
     }
 
     private void createCowboy(InputHandler inputHandler, BoardVO board) {
@@ -71,18 +74,6 @@ public class Test1 implements Screen {
         stage.act();
         stage.draw();
     }
-
-
-
-    public void killZombie(Zombie zombie) {
-        zombieFactory.deleteZombie(zombie);
-    }
-
-    public void demolishWall(int boardPos) {
-        wallFactory.demolish(boardPos);
-    }
-
-    public void demolishHouse(int boardPos) { houseFactory.demolish(boardPos);   }
 
     @Override
     public void resize(int width, int height) {

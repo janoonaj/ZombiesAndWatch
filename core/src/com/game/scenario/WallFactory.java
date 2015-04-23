@@ -3,20 +3,18 @@ package com.game.scenario;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.math.Vector2;
 import com.game.AssetsFactory;
+import com.game.GameFactory;
 import com.game.board.BoardVO;
 import com.game.board.GameBoard;
 import com.game.board.GameScreenPos;
-import com.game.test.Test1;
 
-public class WallFactory {
+public class WallFactory  extends GameFactory {
 
-    private final Test1 test1;
     private final GameScreenPos gameScreenPos;
     GameBoard gameBoard;
 
-    public WallFactory(BoardVO board, Test1 test1) {
+    public WallFactory(BoardVO board) {
         this.gameBoard = board.gameBoard;
-        this.test1 = test1;
         this.gameScreenPos = board.gameScreenPos;
     }
 
@@ -25,8 +23,7 @@ public class WallFactory {
         Wall wall = new Wall(wallGreen,
                 AssetsFactory.instance().getWallYellow(),
                 AssetsFactory.instance().getWallRed(),
-                test1,
-                boardPos);
+                boardPos, gameEngine);
         gameBoard.buildWall(wall, boardPos);
         Vector2 pos = getScreenPos(boardPos);
         wall.setPosition(pos.x - wallGreen.getWidth() / 2, pos.y);

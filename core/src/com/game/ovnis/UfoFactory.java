@@ -4,22 +4,18 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.math.Vector2;
 import com.game.AssetsFactory;
 import com.game.Config;
+import com.game.GameFactory;
 import com.game.Metronome;
 import com.game.board.BoardVO;
-import com.game.board.GameBoard;
-import com.game.board.GameScreenPos;
 import com.game.characters.Side;
-import com.game.test.Test1;
 
 //TODO: object pooling?
-public class UfoFactory {
+public class UfoFactory extends GameFactory {
     private final Metronome metronome = new Metronome(Config.timeOvni);
-    private final Test1 test1;
     private final BoardVO board;
 
-    public UfoFactory(BoardVO board, Test1 test1) {
+    public UfoFactory(BoardVO board) {
         this.board = board;
-        this.test1 = test1;
     }
 
     public Metronome getMetronome () {
@@ -51,7 +47,7 @@ public class UfoFactory {
     }
 
     private Ufo flyUfo(int boardPos, Vector2 screenPos, Side side, Texture texture) {
-        Ufo ufo = new Ufo(texture, boardPos, side, board, test1);
+        Ufo ufo = new Ufo(texture, boardPos, side, board, gameEngine);
         ufo.setPosition(screenPos.x - texture.getWidth() / 2, screenPos.y);
         board.gameBoard.addUfo(boardPos, ufo);
         return ufo;
