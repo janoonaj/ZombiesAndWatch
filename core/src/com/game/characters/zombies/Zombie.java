@@ -1,5 +1,6 @@
 package com.game.characters.zombies;
 
+import com.badlogic.ashley.signals.Signal;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.game.Config;
@@ -8,25 +9,22 @@ import com.game.board.GameBoard;
 import com.game.board.GameScreenPos;
 import com.game.characters.Side;
 import com.game.characters.Rhythmical;
-import com.game.miniGameEngine.GameEngine;
-import com.game.test.Test1;
 
 import java.util.Random;
 
 public class Zombie extends Image implements Rhythmical {
     private final GameScreenPos gameScreenPos;
-    private final GameEngine gameEngine;
     private int boardPos;
     private final GameBoard gameBoard;
     private final Side side;
     private int health = Config.healthZombie;
+    public Signal onKilled = new Signal();
 
-    public Zombie(Texture texture, int boardPos, Side side, BoardVO board, GameEngine gameEngine) {
+    public Zombie(Texture texture, int boardPos, Side side, BoardVO board) {
         super(texture);
         this.boardPos = boardPos;
         this.gameBoard = board.gameBoard;
         this.side = side;
-        this.gameEngine = gameEngine;
         this.gameScreenPos = board.gameScreenPos;
     }
 
@@ -73,7 +71,8 @@ public class Zombie extends Image implements Rhythmical {
     public void damage(int pointsOfDamage) {
         health -= pointsOfDamage;
         if (health <= 0) {
-            this.gameEngine.killZombie(this);
+            onKilled.dispatch(this);
+            onKilled.removeAllListeners();
             remove();
         }
     }

@@ -4,7 +4,6 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.game.Config;
-import com.game.Logger;
 import com.game.board.BoardVO;
 import com.game.board.GameBoard;
 import com.game.board.GameScreenPos;
@@ -38,7 +37,7 @@ public class Cowboy extends Image implements Interactive{
     }
 
     private void doStuff(int nextPos) {
-        if(killZombie(nextPos)) return;
+        if(attackZombie(nextPos)) return;
         if(nextPos == gameBoard.nonPlayableLeftEdge || nextPos == gameBoard.nonPlayableRightEdge) return;
         pos = nextPos;
         updateScreenPos();
@@ -49,7 +48,8 @@ public class Cowboy extends Image implements Interactive{
         this.setPosition(newPos.x - this.getImageWidth() / 2, newPos.y);
     }
 
-    private boolean killZombie(int nextPos) {
+    //Return true if a zombie is hit
+    private boolean attackZombie(int nextPos) {
         if(gameBoard.getZombies(nextPos).size() == 0) return false;
         gameBoard.getZombies(nextPos).get(0).damage(Config.cowboyDamage);
         return true;
