@@ -27,6 +27,9 @@ public class InputHandler extends InputAdapter {
         if (keycode == Input.Keys.RIGHT) {
             pressRight();
         }
+        if(keycode == Input.Keys.SPACE) {
+            shoot();
+        }
         return false;
     }
 
@@ -34,7 +37,12 @@ public class InputHandler extends InputAdapter {
         if (screenX <= Gdx.graphics.getWidth() / 2) {
             pressLeft();
         } else {
-            pressRight();
+            if(screenY >= Gdx.graphics.getHeight() / 2) {
+                shoot();
+            }
+            else {
+                pressRight();
+            }
         }
         return false;
     }
@@ -48,6 +56,12 @@ public class InputHandler extends InputAdapter {
     private void pressRight() {
         for (Interactive interactive : interactives) {
             interactive.pressedRight();
+        }
+    }
+
+    private void shoot() {
+        for (Interactive interactive : interactives) {
+            interactive.shoot();
         }
     }
 

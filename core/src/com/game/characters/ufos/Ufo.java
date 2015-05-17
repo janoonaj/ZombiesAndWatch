@@ -28,6 +28,7 @@ public class Ufo extends Image implements Rhythmical {
     private Image ray;
     public Signal onExtractingHumans = new Signal();
     public Signal onFlyAway = new Signal();
+    public Signal onDestroyed = new Signal();
     private Integer numPrisoners = 0;
 
     public Ufo(Texture texture, int boardPos, BoardVO board) {
@@ -46,7 +47,7 @@ public class Ufo extends Image implements Rhythmical {
         } else if (state == UfoState.GETTING_HUMANS) {
             extractHumans();
         } else if (state == UfoState.RUNNING_AWAY) {
-            if(boardPos == targetPos) {
+            if (boardPos == targetPos) {
                 flyAway();
                 return;
             }
@@ -105,8 +106,30 @@ public class Ufo extends Image implements Rhythmical {
 
     private void flyAway() {
         onFlyAway.dispatch(this);
+        removeListeners();
+        remove();
+    }
+
+    public void damage(int pointsOfDamage) {
+        health -= pointsOfDamage;
+        if (health <= 0) {
+            destroy();
+        }
+    }
+
+    private void destroy() {
+        onDestroyed.dispatch(this);
+        if(ray != null) {
+            ray.remove();
+            ray = null;
+        }
+        removeListeners();
+        remove();
+    }
+
+    private void removeListeners() {
         onFlyAway.removeAllListeners();
         onExtractingHumans.removeAllListeners();
-        remove();
+        onDestroyed.removeAllListeners();
     }
 }

@@ -53,6 +53,7 @@ public class UfoFactory implements SignalListener{
         ufo.setPosition(screenPos.x - texture.getWidth() / 2, screenPos.y);
         board.gameBoard.addUfo(boardPos, ufo);
         ufo.onFlyAway.add(new EventListener(this));
+        ufo.onDestroyed.add(new EventListener(this));
         return ufo;
     }
 

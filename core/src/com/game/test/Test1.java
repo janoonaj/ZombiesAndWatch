@@ -41,7 +41,7 @@ public class Test1 implements Screen {
     }
 
     private void createCowboy(InputHandler inputHandler, BoardVO board) {
-        cowboy = new Cowboy(AssetsFactory.instance().getCowboyBW(), board, this);
+        cowboy = new Cowboy(AssetsFactory.instance().getCowboyBW(), board);
         stage.addActor(cowboy);
         inputHandler.subscribe(cowboy);
     }

@@ -17,7 +17,6 @@ margin - 1 - 2 - 3 - 4 - 5 - 6 - 7 - 8 - 9 - 10 - 11 - 12 - 13 - 14 - 15 - margi
 8 starting point
  */
 
-
 public class GameBoard {
     public int nonPlayableLeftEdge = 5;
     public int nonPlayableRightEdge = 11;
@@ -46,6 +45,7 @@ public class GameBoard {
     public Wall getWall(int pos) {
         return cells.get(pos-1).getWall();
     }
+
     public House getHouse(int pos) {
         return cells.get(pos-1).getHouse();
     }
@@ -58,16 +58,16 @@ public class GameBoard {
         cells.get(pos-1).removeZombie(zombie);
     }
 
-    public void demolishWall(int pos) {cells.get(pos -1 ).demolishWall();}
-
-    public void demolishHouse(int pos) {
-        cells.get(pos -1 ).demolishHouse();
-    }
-
     public void removeZombie(Zombie zombie) {
         for (Cell cell : cells) {
             if(cell.removeZombie(zombie)) return;
         }
+    }
+
+    public void demolishWall(int pos) {cells.get(pos -1 ).demolishWall();}
+
+    public void demolishHouse(int pos) {
+        cells.get(pos -1 ).demolishHouse();
     }
 
     public void addUfo(int pos, Ufo ufo) {
@@ -78,6 +78,10 @@ public class GameBoard {
         for (Cell cell : cells) {
             if(cell.removeUfo()) return;
         }
+    }
+
+    public Ufo getUfo(int pos) {
+        return cells.get(pos-1).getUfo();
     }
 
     public int getCenterBoard() {
