@@ -3,7 +3,7 @@ package com.game.miniGameEngine;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.game.characters.Side;
 import com.game.characters.zombies.ZombieFactory;
-import com.game.ovnis.UfoFactory;
+import com.game.characters.ufos.UfoFactory;
 
 import java.util.Random;
 

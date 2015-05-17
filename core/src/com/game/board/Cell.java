@@ -1,7 +1,7 @@
 package com.game.board;
 
 import com.game.characters.zombies.Zombie;
-import com.game.ovnis.Ufo;
+import com.game.characters.ufos.Ufo;
 import com.game.scenario.House;
 import com.game.scenario.Wall;
 
@@ -50,11 +50,17 @@ public class Cell {
         return zombies;
     }
 
-    public void removeUfo() {
+    public boolean removeUfo() {
+        boolean hasUfo = (ufo != null);
         this.ufo = null;
+        return hasUfo;
     }
 
     public void addUfo(Ufo ufo) {
         this.ufo = ufo;
+    }
+
+    public Ufo getUfo() {
+        return ufo;
     }
 }

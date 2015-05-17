@@ -63,14 +63,12 @@ public class ZombieFactory implements SignalListener {
         return zombie;
     }
 
-    public void deleteZombie(Zombie zombie) {
+    @Override
+    //Delete zombie
+    public void signalReceived(Signal signal, Object data) {
+        Zombie zombie = (Zombie)data;
         metronomeLeft.unsubscribe(zombie);
         metronomeRight.unsubscribe(zombie);
         board.gameBoard.removeZombie(zombie);
-    }
-
-    @Override
-    public void signalReceived(Signal signal, Object data) {
-        deleteZombie((Zombie)data);
     }
 }

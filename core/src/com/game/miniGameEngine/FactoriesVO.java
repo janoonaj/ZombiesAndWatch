@@ -1,7 +1,7 @@
 package com.game.miniGameEngine;
 
 import com.game.characters.zombies.ZombieFactory;
-import com.game.ovnis.UfoFactory;
+import com.game.characters.ufos.UfoFactory;
 import com.game.scenario.HouseFactory;
 import com.game.scenario.WallFactory;
 

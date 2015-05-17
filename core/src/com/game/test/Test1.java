@@ -5,15 +5,13 @@ import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.game.AssetsFactory;
 import com.game.miniGameEngine.FactoriesVO;
 import com.game.InputHandler;
-import com.game.miniGameEngine.GameEngine;
 import com.game.miniGameEngine.MiniGameUpdater;
 import com.game.board.BoardVO;
 import com.game.board.GameBoard;
 import com.game.board.GameScreenPos;
 import com.game.characters.Cowboy;
-import com.game.characters.zombies.Zombie;
 import com.game.characters.zombies.ZombieFactory;
-import com.game.ovnis.UfoFactory;
+import com.game.characters.ufos.UfoFactory;
 import com.game.scenario.HouseFactory;
 import com.game.scenario.WallFactory;
 
@@ -23,7 +21,6 @@ public class Test1 implements Screen {
     private final HouseFactory houseFactory;
     private final UfoFactory ufoFactory;
     private final MiniGameUpdater updater;
-    private final GameEngine gameEngine;
     private Stage stage;
     private Cowboy cowboy;
     private final int numMaxUfo = 1;
@@ -38,7 +35,6 @@ public class Test1 implements Screen {
         this.ufoFactory = new UfoFactory(board);
         FactoriesVO factories = new FactoriesVO(zombieFactory, ufoFactory, wallFactory, houseFactory);
         updater = new MiniGameUpdater(stage, factories, numMaxUfo);
-        gameEngine = new GameEngine(factories);
         createCowboy(inputHandler, board);
         createWalls();
         createHouses();

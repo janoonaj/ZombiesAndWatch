@@ -14,5 +14,9 @@ public class Config {
     public static final int healthZombie = 1;
     public static final int healthWall = 100;
     public static final int healthHouse = 100;
-    public static final int healthOvni = 50;
+    public static final int healthUfo = 50;
+
+    //UFO
+    public static final int humansExtractedByUfoPerStep = 10;
+    public static final int ufoHumansCapacity = 50;
 }

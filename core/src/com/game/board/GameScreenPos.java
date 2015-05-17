@@ -21,7 +21,7 @@ public class GameScreenPos {
         return new Vector2(xAt(boardPos), screenYCenter);
     }
 
-    public Vector2 getScreenPosOvni(int boardPos) {
+    public Vector2 getScreenPosUfo(int boardPos) {
         return new Vector2(xAt(boardPos), Gdx.graphics.getHeight() - cellSideLength);
     }
 

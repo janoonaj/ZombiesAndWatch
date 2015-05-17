@@ -1,10 +1,8 @@
 package com.game.board;
 
 
-import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.math.Vector2;
 import com.game.characters.zombies.Zombie;
-import com.game.ovnis.Ufo;
+import com.game.characters.ufos.Ufo;
 import com.game.scenario.House;
 import com.game.scenario.Wall;
 
@@ -18,18 +16,6 @@ margin - 1 - 2 - 3 - 4 - 5 - 6 - 7 - 8 - 9 - 10 - 11 - 12 - 13 - 14 - 15 - margi
 6-10 player
 8 starting point
  */
-
-
-////////////////////////
-////////////////////////
-//TODO this class does two things
-//-> Manages elements like zombies and walls
-//-> Manages screen pos / coordenades
-//
-//  REFACTOR will be needed.
-//
-////////////////////////
-////////////////////////
 
 
 public class GameBoard {
@@ -88,8 +74,10 @@ public class GameBoard {
         cells.get(pos-1).addUfo(ufo);
     }
 
-    public void removeUfo(int pos) {
-        cells.get(pos-1).removeUfo();
+    public void removeUfo(Ufo ufo) {
+        for (Cell cell : cells) {
+            if(cell.removeUfo()) return;
+        }
     }
 
     public int getCenterBoard() {
@@ -101,4 +89,12 @@ public class GameBoard {
     }
 
     public int getLeftestPos() { return this.leftestCellIndex; }
+
+    public List<Integer> getPosWithHouses() {
+        ArrayList<Integer> positions = new ArrayList<Integer>();
+        for (int boardPos = leftestCellIndex; boardPos <= rightestCellIndex; boardPos++) {
+            if(cells.get(boardPos-1).getHouse() != null) positions.add(boardPos);
+        }
+        return positions;
+    }
 }
