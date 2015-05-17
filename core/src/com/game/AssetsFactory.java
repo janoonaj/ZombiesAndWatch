@@ -23,6 +23,8 @@ public class AssetsFactory {
         manager.load("cowboyColor.png", Texture.class);
         manager.load("zombieR.png", Texture.class);
         manager.load("zombieL.png", Texture.class);
+        manager.load("ufo.png", Texture.class);
+        manager.load("ufoRay.png", Texture.class);
         manager.load("wall_green.png", Texture.class);
         manager.load("wall_yellow.png", Texture.class);
         manager.load("wall_red.png", Texture.class);
@@ -66,6 +68,8 @@ public class AssetsFactory {
     public Texture getChurch() {
         return manager.get("church.png");
     }
+    public Texture getUfo() { return manager.get("ufo.png"); }
+    public Texture getUfoRay() { return manager.get("ufoRay.png"); }
 
     public void dispose() {
         manager.dispose();

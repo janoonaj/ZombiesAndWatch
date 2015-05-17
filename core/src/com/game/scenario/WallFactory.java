@@ -1,19 +1,23 @@
 package com.game.scenario;
 
+import com.badlogic.ashley.signals.Signal;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.math.Vector2;
 import com.game.AssetsFactory;
+import com.game.board.BoardVO;
 import com.game.board.GameBoard;
-import com.game.test.Test1;
+import com.game.board.GameScreenPos;
+import com.game.signal.EventListener;
+import com.game.signal.SignalListener;
 
-public class WallFactory {
+public class WallFactory implements SignalListener {
 
-    private final Test1 test1;
+    private final GameScreenPos gameScreenPos;
     GameBoard gameBoard;
 
-    public WallFactory(GameBoard gameBoard, Test1 test1) {
-        this.gameBoard = gameBoard;
-        this.test1 = test1;
+    public WallFactory(BoardVO board) {
+        this.gameBoard = board.gameBoard;
+        this.gameScreenPos = board.gameScreenPos;
     }
 
     public Wall createWall(int boardPos) {
@@ -21,23 +25,24 @@ public class WallFactory {
         Wall wall = new Wall(wallGreen,
                 AssetsFactory.instance().getWallYellow(),
                 AssetsFactory.instance().getWallRed(),
-                test1,
                 boardPos);
+        wall.onDemolished.add(new EventListener(this));
         gameBoard.buildWall(wall, boardPos);
         Vector2 pos = getScreenPos(boardPos);
         wall.setPosition(pos.x - wallGreen.getWidth() / 2, pos.y);
         return wall;
     }
 
-    public void demolish(int boardPos) {
-        gameBoard.demolishWall(boardPos);
-    }
-
     private Vector2 getScreenPos(int boardPos) {
         if(boardPos >= gameBoard.getCenterBoard()) {
-            return gameBoard.getRightEdgeSceenPos(boardPos);
+            return gameScreenPos.getRightEdgeSceenPos(boardPos);
         } else {
-            return gameBoard.getLeftEdgeSceenPos(boardPos);
+            return gameScreenPos.getLeftEdgeSceenPos(boardPos);
         }
+    }
+
+    @Override
+    public void signalReceived(Signal signal, Object boardPos) {
+        gameBoard.demolishWall((Integer)boardPos);
     }
 }

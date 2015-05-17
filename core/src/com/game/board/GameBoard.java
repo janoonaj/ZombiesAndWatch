@@ -1,10 +1,8 @@
 package com.game.board;
 
 
-import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.math.Vector2;
-import com.game.Logger;
 import com.game.characters.zombies.Zombie;
+import com.game.characters.ufos.Ufo;
 import com.game.scenario.House;
 import com.game.scenario.Wall;
 
@@ -19,28 +17,15 @@ margin - 1 - 2 - 3 - 4 - 5 - 6 - 7 - 8 - 9 - 10 - 11 - 12 - 13 - 14 - 15 - margi
 8 starting point
  */
 
-
-////////////////////////
-////////////////////////
-//TODO this class does two things
-//-> Manages elements like zombies and walls
-//-> Manages screen pos / coordenades
-//
-//  REFACTOR will be needed.
-//
-////////////////////////
-////////////////////////
-
-
 public class GameBoard {
-    private int cellWidth = Gdx.graphics.getWidth() / 17;
-    private int screenYCenter = Gdx.graphics.getHeight() / 2;
     public int nonPlayableLeftEdge = 5;
     public int nonPlayableRightEdge = 11;
+    private int leftestCellIndex = 1;
+    private int rightestCellIndex = 15;
     private List<Cell> cells = new ArrayList<Cell>();
 
     public GameBoard() {
-        for(int cellIndex = 0; cellIndex < 15; cellIndex++) {
+        for(int cellIndex = 0; cellIndex < rightestCellIndex; cellIndex++) {
             cells.add(new Cell());
         }
     }
@@ -60,6 +45,7 @@ public class GameBoard {
     public Wall getWall(int pos) {
         return cells.get(pos-1).getWall();
     }
+
     public House getHouse(int pos) {
         return cells.get(pos-1).getHouse();
     }
@@ -72,63 +58,47 @@ public class GameBoard {
         cells.get(pos-1).removeZombie(zombie);
     }
 
-    public void demolishWall(int pos) {cells.get(pos -1 ).demolishWall();}
-
-    public void demolishHouse(int pos) {
-        cells.get(pos -1 ).demolishHouse();
-    }
-
     public void removeZombie(Zombie zombie) {
         for (Cell cell : cells) {
             if(cell.removeZombie(zombie)) return;
         }
     }
 
-    public Vector2 getScreenPosZombies(int boardPos) {
-        return new Vector2(xAt(boardPos), screenYCenter);
+    public void demolishWall(int pos) {cells.get(pos -1 ).demolishWall();}
+
+    public void demolishHouse(int pos) {
+        cells.get(pos -1 ).demolishHouse();
     }
 
-    public Vector2 getScreen2Cowboy(int boardPos) {
-        return new Vector2(xAt(boardPos), screenYCenter + cellWidth);
+    public void addUfo(int pos, Ufo ufo) {
+        cells.get(pos-1).addUfo(ufo);
     }
 
-    public Vector2 getLeftEdgeSceenPos(int boardPos) {
-        return new Vector2(xLeftEdgeOf(boardPos), screenYCenter);
+    public void removeUfo(Ufo ufo) {
+        for (Cell cell : cells) {
+            if(cell.removeUfo()) return;
+        }
     }
 
-    public Vector2 getRightEdgeSceenPos(int boardPos) {
-        return new Vector2(xRightEdgeOf(boardPos), screenYCenter);
-    }
-
-    public PositionOnBoardVO getRightest() {
-        int rightestPos = 15;
-        return new PositionOnBoardVO(getScreenPosZombies(rightestPos), rightestPos);
-    }
-
-    public PositionOnBoardVO getLeftest() {
-        int leftestPos = 1;
-        return new PositionOnBoardVO(getScreenPosZombies(leftestPos), leftestPos);
+    public Ufo getUfo(int pos) {
+        return cells.get(pos-1).getUfo();
     }
 
     public int getCenterBoard() {
-        return 8;
+        return (rightestCellIndex + leftestCellIndex) / 2;
     }
 
     public int getRighestPos() {
-        return 15;
+        return this.rightestCellIndex;
     }
 
-    //Returns center point of a board position.
-    private int xAt(int boardPos) {
-        return (cellWidth * boardPos) + cellWidth / 2;
-    }
+    public int getLeftestPos() { return this.leftestCellIndex; }
 
-    //Returns left point of a board position
-    private int xLeftEdgeOf(int boardPos) {
-        return (cellWidth * boardPos);
-    }
-
-    private int xRightEdgeOf(int boardPos) {
-        return (cellWidth * boardPos + cellWidth);
+    public List<Integer> getPosWithHouses() {
+        ArrayList<Integer> positions = new ArrayList<Integer>();
+        for (int boardPos = leftestCellIndex; boardPos <= rightestCellIndex; boardPos++) {
+            if(cells.get(boardPos-1).getHouse() != null) positions.add(boardPos);
+        }
+        return positions;
     }
 }

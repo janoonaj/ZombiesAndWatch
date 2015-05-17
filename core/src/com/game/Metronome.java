@@ -11,6 +11,7 @@ public class Metronome {
     private float currentTime;
     private float updateTime;
     List<Rhythmical> subscribers = new ArrayList<Rhythmical>();
+    List<Rhythmical> subscribersToRemove = new ArrayList<Rhythmical>();
 
     public Metronome(float updateTime) {
         this.updateTime = updateTime;
@@ -21,6 +22,7 @@ public class Metronome {
         currentTime += delta;
         if(currentTime >= updateTime) {
             currentTime = 0f;
+            removeElements();
             for (Rhythmical subscriber : subscribers) {
                 subscriber.updatePos();
             }
@@ -32,12 +34,22 @@ public class Metronome {
         return false;
     }
 
+    private void removeElements() {
+        for(Rhythmical subscriberToRemove : subscribersToRemove) {
+            subscribers.remove(subscriberToRemove);
+        }
+        subscribersToRemove.clear();
+    }
+
     public void subscribe(Rhythmical rhythmical) {
         subscribers.add(rhythmical);
     }
 
     public void unsubscribe(Rhythmical rhythmical) {
-        subscribers.remove(rhythmical);
+        //Elements will be deleted one step after requested. This is because
+        //we don't want to change the Collection on one thread when it's been used
+        //on another thread (ConcurrentModificationException)
+        subscribersToRemove.add(rhythmical);
     }
 }
 

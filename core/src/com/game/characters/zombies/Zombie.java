@@ -1,42 +1,49 @@
 package com.game.characters.zombies;
 
+import com.badlogic.ashley.signals.Signal;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.game.Config;
-import com.game.Logger;
+import com.game.board.BoardVO;
 import com.game.board.GameBoard;
+import com.game.board.GameScreenPos;
+import com.game.characters.Side;
 import com.game.characters.Rhythmical;
-import com.game.test.Test1;
 
-import java.util.List;
 import java.util.Random;
 
 public class Zombie extends Image implements Rhythmical {
+    private final GameScreenPos gameScreenPos;
     private int boardPos;
     private final GameBoard gameBoard;
-    private final Movement movement;
+    private final Side side;
+    private int health = Config.healthZombie;
+    public Signal onKilled = new Signal();
 
-    public Zombie(Texture texture, int boardPos, Movement movement, GameBoard gameBoard) {
+    public Zombie(Texture texture, int boardPos, Side side, BoardVO board) {
         super(texture);
         this.boardPos = boardPos;
-        this.gameBoard = gameBoard;
-        this.movement = movement;
+        this.gameBoard = board.gameBoard;
+        this.side = side;
+        this.gameScreenPos = board.gameScreenPos;
     }
 
     public void updatePos() {
         int nextPos = boardPos;
-        if (movement == Movement.LEFT) {
-            nextPos = boardPos - 1; if(nextPos < 1 ) return;
+        if (side == Side.LEFT) {
+            nextPos = boardPos - 1;
+            if (nextPos < 1) return;
         }
-        if (movement == Movement.RIGHT) {
-            nextPos = boardPos + 1; if(nextPos > gameBoard.getRighestPos()) return;
+        if (side == Side.RIGHT) {
+            nextPos = boardPos + 1;
+            if (nextPos > gameBoard.getRighestPos()) return;
         }
-        if(gameBoard.getWall(nextPos) != null) {
+        if (gameBoard.getWall(nextPos) != null) {
             gameBoard.getWall(nextPos).damage(Config.zombieDamage);
             return;
         }
 
-        if(gameBoard.getHouse(nextPos) != null) {
+        if (gameBoard.getHouse(nextPos) != null) {
             gameBoard.getHouse(nextPos).damage(Config.zombieDamage);
             return;
         }
@@ -45,9 +52,9 @@ public class Zombie extends Image implements Rhythmical {
     }
 
     public void draw() {
-        float nextX = gameBoard.getScreenPosZombies(boardPos).x;
-        float nextY = gameBoard.getScreenPosZombies(boardPos).y;
-        if(gameBoard.getZombies(boardPos).size() > 1) {
+        float nextX = gameScreenPos.getScreenPosZombies(boardPos).x - this.getImageWidth() / 2;
+        float nextY = gameScreenPos.getScreenPosZombies(boardPos).y;
+        if (gameBoard.getZombies(boardPos).size() > 1) {
             //temp "horde" effect
             nextY += new Random().nextInt(40) - 20;
             nextX += new Random().nextInt(10) - 5;
@@ -61,7 +68,12 @@ public class Zombie extends Image implements Rhythmical {
         boardPos = newPos;
     }
 
-    public void kill() {
-        remove();
+    public void damage(int pointsOfDamage) {
+        health -= pointsOfDamage;
+        if (health <= 0) {
+            onKilled.dispatch(this);
+            onKilled.removeAllListeners();
+            remove();
+        }
     }
 }

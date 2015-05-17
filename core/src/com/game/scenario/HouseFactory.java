@@ -1,36 +1,35 @@
 package com.game.scenario;
 
+import com.badlogic.ashley.signals.Signal;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.math.Vector2;
 import com.game.AssetsFactory;
+import com.game.board.BoardVO;
 import com.game.board.GameBoard;
-import com.game.test.Test1;
+import com.game.board.GameScreenPos;
+import com.game.signal.EventListener;
+import com.game.signal.SignalListener;
 
 import java.util.Random;
 
-public class HouseFactory {
+public class HouseFactory implements SignalListener {
 
     private final GameBoard gameBoard;
-    private final Test1 test1;
+    private final GameScreenPos gameScreenPos;
 
-    public HouseFactory(GameBoard gameBoard, Test1 test1) {
-        this.gameBoard = gameBoard;
-        this.test1 = test1;
+    public HouseFactory(BoardVO board) {
+        this.gameBoard = board.gameBoard;
+        this.gameScreenPos = board.gameScreenPos;
     }
 
     public House createHouse(int boardPos) {
         Texture texture = getTexture();
-        House house = new House(texture,
-                test1,
-                boardPos);
+        House house = new House(texture, boardPos);
+        house.onDemolished.add(new EventListener(this));
         gameBoard.buildHouse(house, boardPos);
-        Vector2 pos = gameBoard.getScreenPosZombies(boardPos);
+        Vector2 pos = gameScreenPos.getScreenPosZombies(boardPos);
         house.setPosition(pos.x - texture.getWidth() / 2, pos.y);
         return house;
-    }
-
-    public void demolish(int boardPos) {
-        gameBoard.demolishHouse(boardPos);
     }
 
     private Texture getTexture() {
@@ -41,5 +40,10 @@ public class HouseFactory {
             case 3 : return AssetsFactory.instance().getChurch();
         }
         return null;
+    }
+
+    @Override
+    public void signalReceived(Signal signal, Object boardPos) {
+        gameBoard.demolishHouse((Integer)boardPos);
     }
 }
