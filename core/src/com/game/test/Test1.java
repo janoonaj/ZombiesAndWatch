@@ -13,6 +13,7 @@ import com.game.characters.Cowboy;
 import com.game.characters.zombies.ZombieFactory;
 import com.game.characters.ufos.UfoFactory;
 import com.game.scenario.HouseFactory;
+import com.game.scenario.Population;
 import com.game.scenario.WallFactory;
 
 public class Test1 implements Screen {
@@ -38,6 +39,14 @@ public class Test1 implements Screen {
         createCowboy(inputHandler, board);
         createWalls();
         createHouses();
+
+
+
+
+        Population pop = new Population();
+        stage.addActor(pop);
+        pop.setX(50f);
+        pop.setY(50f);
     }
 
     private void createCowboy(InputHandler inputHandler, BoardVO board) {
