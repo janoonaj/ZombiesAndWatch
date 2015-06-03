@@ -10,6 +10,7 @@ import com.game.board.BoardVO;
 import com.game.board.GameBoard;
 import com.game.board.GameScreenPos;
 import com.game.characters.Rhythmical;
+import com.game.scenario.Population;
 
 import java.util.List;
 import java.util.Random;
@@ -90,6 +91,7 @@ public class Ufo extends Image implements Rhythmical {
         }
 
         onExtractingHumans.dispatch(Config.humansExtractedByUfoPerStep);
+        Population.instance().remove(Config.humansExtractedByUfoPerStep);
         numPrisoners += Config.humansExtractedByUfoPerStep;
         if (numPrisoners >= Config.ufoHumansCapacity) {
             selectRandomRunawayBoardPos();

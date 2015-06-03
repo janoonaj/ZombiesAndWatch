@@ -10,7 +10,7 @@
     "com.badlogic.gdx.scenes.scene2d.ui.Label$LabelStyle": {
         "titleblack": { "font": latin , "fontColor": black},
         "titlewhite": { "font": latin , "fontColor": white},
-        "default": { "font": latin , "fontColor": black},
+		"default": { "font": latin , "fontColor": black},
     },
  }
  

@@ -9,6 +9,7 @@ import com.game.board.GameBoard;
 import com.game.board.GameScreenPos;
 import com.game.characters.Side;
 import com.game.characters.Rhythmical;
+import com.game.scenario.Population;
 
 import java.util.Random;
 
@@ -45,6 +46,7 @@ public class Zombie extends Image implements Rhythmical {
 
         if (gameBoard.getHouse(nextPos) != null) {
             gameBoard.getHouse(nextPos).damage(Config.zombieDamage);
+            Population.instance().remove(Config.humansKilledByZombiesPerStep);
             return;
         }
 

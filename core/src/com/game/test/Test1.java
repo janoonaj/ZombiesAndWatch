@@ -1,8 +1,10 @@
 package com.game.test;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.game.AssetsFactory;
+import com.game.Config;
 import com.game.miniGameEngine.FactoriesVO;
 import com.game.InputHandler;
 import com.game.miniGameEngine.MiniGameUpdater;
@@ -39,14 +41,7 @@ public class Test1 implements Screen {
         createCowboy(inputHandler, board);
         createWalls();
         createHouses();
-
-
-
-
-        Population pop = new Population();
-        stage.addActor(pop);
-        pop.setX(50f);
-        pop.setY(50f);
+        createUI();
     }
 
     private void createCowboy(InputHandler inputHandler, BoardVO board) {
@@ -66,6 +61,14 @@ public class Test1 implements Screen {
         stage.addActor(houseFactory.createHouse(8));
         stage.addActor(houseFactory.createHouse(9));
         stage.addActor(houseFactory.createHouse(10));
+    }
+
+    private void createUI() {
+        Population.setInitialInhabitants(Config.startPopulation);
+        Population pop = Population.instance();
+        stage.addActor(pop);
+        pop.setX(0f);
+        pop.setY(Gdx.graphics.getHeight() - pop.getHeight());
     }
 
     @Override
