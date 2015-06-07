@@ -1,10 +1,11 @@
 package com.game;
 
 public class Config {
+    public static final float finalMiniGame = 90f;
 
     //Time in secs
-    public static final float timeZombie = 1.5f;
-    public static final float timeOvni = 0.5f;
+    public static final float timeZombie = 2f;
+    public static final float timeOvni = 0.8f;
 
     //Damage
     public static final int cowboyDamage = 10;

@@ -25,10 +25,15 @@ public class Population extends Label {
     private Population(Integer inhabitants, Skin skin) {
         super(inhabitants.toString(), skin);
         this.inhabitants = inhabitants;
+        updateText();
     }
 
     public void remove(Integer killed) {
         inhabitants -= killed;
-        this.setText(inhabitants.toString());
+        updateText();
+    }
+
+    private void updateText() {
+        this.setText("Habitantes vivos: " + inhabitants.toString());
     }
 }

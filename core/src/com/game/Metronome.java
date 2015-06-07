@@ -10,6 +10,7 @@ import java.util.Random;
 public class Metronome {
     private float currentTime;
     private float updateTime;
+    private float newUpdateTimeAccelerated = 0f;
     List<Rhythmical> subscribers = new ArrayList<Rhythmical>();
     List<Rhythmical> subscribersToRemove = new ArrayList<Rhythmical>();
 
@@ -22,6 +23,7 @@ public class Metronome {
         currentTime += delta;
         if(currentTime >= updateTime) {
             currentTime = 0f;
+            refreshUpdateTimeIfItHasToAccelerate();
             removeElements();
             for (Rhythmical subscriber : subscribers) {
                 subscriber.updatePos();
@@ -32,6 +34,14 @@ public class Metronome {
             return true;
         }
         return false;
+    }
+
+    private void refreshUpdateTimeIfItHasToAccelerate() {
+        if(newUpdateTimeAccelerated == 0f) return;
+
+        Logger.print("accelerated: before was " + updateTime + " now is " + newUpdateTimeAccelerated);
+        updateTime = newUpdateTimeAccelerated;
+        newUpdateTimeAccelerated = 0f;
     }
 
     private void removeElements() {
@@ -50,6 +60,10 @@ public class Metronome {
         //we don't want to change the Collection on one thread when it's been used
         //on another thread (ConcurrentModificationException)
         subscribersToRemove.add(rhythmical);
+    }
+
+    public void accelerate(float percentage) {
+        newUpdateTimeAccelerated = updateTime - ((updateTime / 100 ) * percentage);
     }
 }
 

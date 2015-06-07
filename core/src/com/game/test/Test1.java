@@ -3,8 +3,12 @@ package com.game.test;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.ui.Image;
+import com.badlogic.gdx.scenes.scene2d.ui.Label;
+import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.game.AssetsFactory;
 import com.game.Config;
+import com.game.miniGameEngine.OrchestraConductor;
 import com.game.miniGameEngine.FactoriesVO;
 import com.game.InputHandler;
 import com.game.miniGameEngine.MiniGameUpdater;
@@ -28,6 +32,9 @@ public class Test1 implements Screen {
     private Cowboy cowboy;
     private final int numMaxUfo = 1;
 
+    private Label timeCounter;
+    private float mSecsPassed = 0;
+
     public Test1(Stage stage, InputHandler inputHandler) {
         this.stage = stage;
         GameBoard gameBoard = new GameBoard();
@@ -37,7 +44,8 @@ public class Test1 implements Screen {
         this.houseFactory = new HouseFactory(board);
         this.ufoFactory = new UfoFactory(board);
         FactoriesVO factories = new FactoriesVO(zombieFactory, ufoFactory, wallFactory, houseFactory);
-        updater = new MiniGameUpdater(stage, factories, numMaxUfo);
+        OrchestraConductor orchestraConductor = new OrchestraConductor(factories);
+        updater = new MiniGameUpdater(stage, factories, numMaxUfo, orchestraConductor);
         createCowboy(inputHandler, board);
         createWalls();
         createHouses();
@@ -69,6 +77,16 @@ public class Test1 implements Screen {
         stage.addActor(pop);
         pop.setX(0f);
         pop.setY(Gdx.graphics.getHeight() - pop.getHeight());
+
+        timeCounter = new Label("0", new Skin(Gdx.files.internal("skins.json")));
+        stage.addActor(timeCounter);
+        timeCounter.setX(Gdx.graphics.getWidth() - 50);
+        timeCounter.setY(Gdx.graphics.getHeight() - timeCounter.getHeight());
+
+        Image shotgun = new Image(AssetsFactory.instance().getShotgun());
+        stage.addActor(shotgun);
+        shotgun.setX(Gdx.graphics.getWidth() - shotgun.getWidth());
+        shotgun.setY(0);
     }
 
     @Override
@@ -78,7 +96,12 @@ public class Test1 implements Screen {
 
     @Override
     public void render(float delta) {
-        updater.render(delta);
+        if(mSecsPassed < Config.finalMiniGame) {
+            updater.render(delta);
+            mSecsPassed += delta;
+            timeCounter.setText(Integer.toString((int) mSecsPassed));
+        }
+
         stage.act();
         stage.draw();
     }

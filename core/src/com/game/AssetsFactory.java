@@ -21,8 +21,10 @@ public class AssetsFactory {
     public void loadTextures() {
         manager.load("cowboyBW.png", Texture.class);
         manager.load("cowboyColor.png", Texture.class);
-        manager.load("zombieR.png", Texture.class);
-        manager.load("zombieL.png", Texture.class);
+        //manager.load("zombieR.png", Texture.class);
+        manager.load("zombie_test_show_R.png", Texture.class);
+        //manager.load("zombieL.png", Texture.class);
+        manager.load("zombie_test_show_L.png", Texture.class);
         manager.load("ufo.png", Texture.class);
         manager.load("ufoRay.png", Texture.class);
         manager.load("wall_green.png", Texture.class);
@@ -32,6 +34,7 @@ public class AssetsFactory {
         manager.load("hotel.png", Texture.class);
         manager.load("farm.png", Texture.class);
         manager.load("church.png", Texture.class);
+        manager.load("shotgun.jpg", Texture.class);
     }
 
     public boolean assetsLoaded() {
@@ -51,10 +54,12 @@ public class AssetsFactory {
     public Texture getWallRed() { return manager.get("wall_red.png");}
 
     public Texture getZombieLeft() {
-        return manager.get("zombieL.png");
+        //return manager.get("zombieL.png");
+        return manager.get("zombie_test_show_L.png");
     }
     public Texture getZombieRight() {
-        return manager.get("zombieR.png");
+        //return manager.get("zombieR.png");
+        return manager.get("zombie_test_show_R.png");
     }
     public Texture getHouse() {
         return manager.get("house.png");
@@ -70,6 +75,7 @@ public class AssetsFactory {
     }
     public Texture getUfo() { return manager.get("ufo.png"); }
     public Texture getUfoRay() { return manager.get("ufoRay.png"); }
+    public Texture getShotgun() { return manager.get("shotgun.jpg"); }
 
     public void dispose() {
         manager.dispose();

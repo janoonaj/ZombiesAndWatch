@@ -37,7 +37,7 @@ public class InputHandler extends InputAdapter {
         if (screenX <= Gdx.graphics.getWidth() / 2) {
             pressLeft();
         } else {
-            if(screenY >= Gdx.graphics.getHeight() / 2) {
+            if(screenY >= Gdx.graphics.getHeight() - Gdx.graphics.getHeight() / 5) {
                 shoot();
             }
             else {

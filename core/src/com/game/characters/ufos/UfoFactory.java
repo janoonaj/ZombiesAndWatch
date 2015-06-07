@@ -41,7 +41,7 @@ public class UfoFactory implements SignalListener{
         return ufo;
     }
 
-    private Ufo createUfoLeft() {
+    private Ufo createUfoLeft() {  
         int boardPos = board.gameBoard.getLeftestPos();
         Ufo ufo = flyUfo(boardPos, board.gameScreenPos.getScreenPosUfo(boardPos), AssetsFactory.instance().getUfo());
         metronome.subscribe(ufo);
