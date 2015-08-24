@@ -4,8 +4,9 @@ import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.scenes.scene2d.Stage;
-import com.game.characters.zombies.ZombieFactory;
-import com.game.test.Test1;
+import com.game.miniGame.AssetsFactory;
+import com.game.miniGame.InputHandler;
+import com.game.miniGame.test.Test1;
 
 public class Main extends Game {
 
