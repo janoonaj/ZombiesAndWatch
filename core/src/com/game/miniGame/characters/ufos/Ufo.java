@@ -58,8 +58,12 @@ public class Ufo extends Image implements com.game.miniGame.characters.Rhythmica
 
     private void selectHouseTarget() {
         List<Integer> boardPosWithHouses = gameBoard.getPosWithHouses();
-        int randomIndex = new Random().nextInt(boardPosWithHouses.size());
-        targetPos = boardPosWithHouses.get(randomIndex);
+        if(boardPosWithHouses.isEmpty()) {
+            targetPos = gameBoard.getCenterBoard();
+        } else {
+            int randomIndex = new Random().nextInt(boardPosWithHouses.size());
+            targetPos = boardPosWithHouses.get(randomIndex);
+        }
     }
 
     private void moveUfoToTarget() {

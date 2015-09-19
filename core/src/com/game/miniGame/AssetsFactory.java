@@ -35,6 +35,7 @@ public class AssetsFactory {
         manager.load("farm.png", Texture.class);
         manager.load("church.png", Texture.class);
         manager.load("shotgun.jpg", Texture.class);
+        manager.load("zombieHead.png", Texture.class);
     }
 
     public boolean assetsLoaded() {
@@ -76,6 +77,7 @@ public class AssetsFactory {
     public Texture getUfo() { return manager.get("ufo.png"); }
     public Texture getUfoRay() { return manager.get("ufoRay.png"); }
     public Texture getShotgun() { return manager.get("shotgun.jpg"); }
+    public Texture getZombieHead() { return manager.get("zombieHead.png"); }
 
     public void dispose() {
         manager.dispose();

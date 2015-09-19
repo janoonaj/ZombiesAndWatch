@@ -2,8 +2,12 @@ package com.game.miniGame.board;
 
 
 import com.game.miniGame.characters.ufos.Ufo;
+import com.game.miniGame.characters.zombies.Zombie;
+import com.game.miniGame.scenario.House;
+import com.game.miniGame.scenario.Wall;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 /*
@@ -39,23 +43,23 @@ public class GameBoard {
         cells.get(pos-1).addZombie(zombie);
     }
 
-    public com.game.miniGame.scenario.Wall getWall(int pos) {
+    public Wall getWall(int pos) {
         return cells.get(pos-1).getWall();
     }
 
-    public com.game.miniGame.scenario.House getHouse(int pos) {
+    public House getHouse(int pos) {
         return cells.get(pos-1).getHouse();
     }
 
-    public List<com.game.miniGame.characters.zombies.Zombie> getZombies(int pos) {
+    public List<Zombie> getZombies(int pos) {
         return cells.get(pos-1).getZombies();
     }
 
-    public void removeZombie(int pos, com.game.miniGame.characters.zombies.Zombie zombie) {
+    public void removeZombie(int pos, Zombie zombie) {
         cells.get(pos-1).removeZombie(zombie);
     }
 
-    public void removeZombie(com.game.miniGame.characters.zombies.Zombie zombie) {
+    public void removeZombie(Zombie zombie) {
         for (Cell cell : cells) {
             if(cell.removeZombie(zombie)) return;
         }
@@ -97,5 +101,9 @@ public class GameBoard {
             if(cells.get(boardPos-1).getHouse() != null) positions.add(boardPos);
         }
         return positions;
+    }
+
+    public List<Integer> getCityPositions() {
+        return Arrays.asList(6, 7, 8, 9, 10);
     }
 }

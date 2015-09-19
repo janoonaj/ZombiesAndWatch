@@ -3,25 +3,31 @@ package com.game.miniGame.characters.zombies;
 import com.badlogic.ashley.signals.Signal;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.math.Vector2;
+import com.game.miniGame.AssetsFactory;
+import com.game.miniGame.Metronome;
+import com.game.miniGame.board.BoardVO;
 import com.game.miniGame.characters.Side;
 import com.game.miniGame.Config;
 import com.game.miniGame.signal.EventListener;
 
+import java.util.List;
+import java.util.Random;
+
 //TODO: object pooling
 public class ZombieFactory implements com.game.miniGame.signal.SignalListener {
-    private final com.game.miniGame.Metronome metronomeLeft = new com.game.miniGame.Metronome(Config.timeZombie);
-    private final com.game.miniGame.Metronome metronomeRight = new com.game.miniGame.Metronome(Config.timeZombie);
-    private final com.game.miniGame.board.BoardVO board;
+    private final Metronome metronomeLeft = new Metronome(Config.timeZombie);
+    private final Metronome metronomeRight = new Metronome(Config.timeZombie);
+    private final BoardVO board;
 
     public ZombieFactory(com.game.miniGame.board.BoardVO board) {
         this.board = board;
     }
 
-    public com.game.miniGame.Metronome getMetronomeLeft() {
+    public Metronome getMetronomeLeft() {
         return metronomeLeft;
     }
 
-    public com.game.miniGame.Metronome getMetronomeRight() {
+    public Metronome getMetronomeRight() {
         return metronomeRight;
     }
 
@@ -35,10 +41,34 @@ public class ZombieFactory implements com.game.miniGame.signal.SignalListener {
         return null;
     }
 
+    public Zombie createZombieAtCity() {
+        List<Integer> cityPos = board.gameBoard.getCityPositions();
+        int randomCityIndex = (new Random()).nextInt(cityPos.size());
+        Texture texture;
+        Side side;
+        if(randomCityIndex <= cityPos.size() / 2) {
+            texture = AssetsFactory.instance().getZombieRight();
+            side = Side.RIGHT;
+        } else {
+            texture = AssetsFactory.instance().getZombieLeft();
+            side = Side.LEFT;
+        }
+        int boardPos = cityPos.get(randomCityIndex);
+
+        Vector2 screenCoords = board.gameScreenPos.getScreenPosZombies(boardPos);
+        Zombie zombie = new ZombieFromBelow(texture,
+                                        AssetsFactory.instance().getZombieHead(), boardPos, side, board);
+        zombie.setPosition(screenCoords.x - texture.getWidth() / 2, screenCoords.y);
+        board.gameBoard.addZombie(boardPos, zombie);
+        zombie.onKilled.add(new EventListener(this));
+        metronomeRight.subscribe(zombie);
+        return zombie;
+    }
+
     private Zombie createZombieRight() {
         int boardPos = board.gameBoard.getRighestPos();
         Zombie zombie = riseZombie(boardPos, board.gameScreenPos.getScreenPosZombies(boardPos),
-                            Side.LEFT, com.game.miniGame.AssetsFactory.instance().getZombieLeft());
+                Side.LEFT, AssetsFactory.instance().getZombieLeft());
         metronomeRight.subscribe(zombie);
         return zombie;
     }
@@ -46,7 +76,14 @@ public class ZombieFactory implements com.game.miniGame.signal.SignalListener {
     private Zombie createZombieLeft() {
         int boardPos = board.gameBoard.getLeftestPos();
         Zombie zombie = riseZombie(boardPos, board.gameScreenPos.getScreenPosZombies(boardPos),
-                                    Side.RIGHT, com.game.miniGame.AssetsFactory.instance().getZombieRight());
+                                    Side.RIGHT, AssetsFactory.instance().getZombieRight());
+        metronomeLeft.subscribe(zombie);
+        return zombie;
+    }
+
+    public Zombie createZombieAt(int pos) {
+        Zombie zombie = riseZombie(pos, board.gameScreenPos.getScreenPosZombies(pos),
+                Side.RIGHT, AssetsFactory.instance().getZombieRight());
         metronomeLeft.subscribe(zombie);
         return zombie;
     }
