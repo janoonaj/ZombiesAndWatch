@@ -44,7 +44,7 @@ public class MiniGameUpdater implements com.game.miniGame.signal.SignalListener 
         if (randCreateZombies <= probabilityCreateZombie) {
             stage.addActor(zombieFactory.createZombie(side));
         }
-        int probabilityCreateZombieCenter = 30;
+        int probabilityCreateZombieCenter = 15;
         int randCreateZombiesCenter = new Random().nextInt(99) + 1;
         if (randCreateZombiesCenter <= probabilityCreateZombieCenter) {
             stage.addActor(zombieFactory.createZombieAtCity());

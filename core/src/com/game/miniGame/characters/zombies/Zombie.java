@@ -5,6 +5,7 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.scenes.scene2d.Group;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.game.miniGame.Config;
+import com.game.miniGame.Logger;
 import com.game.miniGame.board.BoardVO;
 import com.game.miniGame.board.GameBoard;
 import com.game.miniGame.characters.Side;
@@ -43,7 +44,7 @@ public class Zombie extends Group implements com.game.miniGame.characters.Rhythm
     }
 
     public void draw() {
-        float nextX = gameScreenPos.getScreenPosZombies(boardPos).x - img.getImageWidth() / 2;
+        float nextX = gameScreenPos.getScreenPosZombies(boardPos).x - img.getWidth() / 2;
         float nextY = gameScreenPos.getScreenPosZombies(boardPos).y;
         if (gameBoard.getZombies(boardPos).size() > 1) {
             //temp "horde" effect

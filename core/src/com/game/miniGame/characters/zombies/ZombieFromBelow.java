@@ -3,7 +3,6 @@ package com.game.miniGame.characters.zombies;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.game.miniGame.Config;
-import com.game.miniGame.Logger;
 import com.game.miniGame.board.BoardVO;
 import com.game.miniGame.characters.Side;
 
