@@ -2,6 +2,7 @@ package com.game.miniGame.characters.zombies;
 
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
+import com.game.miniGame.Config;
 import com.game.miniGame.Logger;
 import com.game.miniGame.board.BoardVO;
 import com.game.miniGame.characters.Side;
@@ -18,21 +19,9 @@ public class ZombieFromBelow extends Zombie{
         addActor(rising);
     }
 
-    /*
-    Different behaviour than parent.
-    It's born inside the city. Go to Houses.
-     */
     public void updatePos() {
-       if(rise()) return;
-
-        if(attackHouse(boardPos)) return;
-
-        int nextPos = calculateNextPos();
-        if(nextPos < 1 || nextPos > gameBoard.getRighestPos()) return;
-
-        if(attackWall(boardPos)) return;
-
-        changePos(nextPos);
+        if(rise()) return;
+        super.updatePos();
     }
 
     private Boolean rise() {
@@ -41,5 +30,16 @@ public class ZombieFromBelow extends Zombie{
         removeActor(rising);
         addActor(img);
         return true;
+    }
+
+    /*
+    Attacks wall if it's in its same position.
+     */
+    protected Boolean attackWall(int nextPos) {
+        if (gameBoard.getWall(boardPos) != null) {
+            gameBoard.getWall(boardPos).damage(Config.zombieDamage);
+            return true;
+        }
+        return false;
     }
 }
