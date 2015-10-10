@@ -4,20 +4,21 @@ import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.scenes.scene2d.Stage;
-import com.game.miniGame.AssetsFactory;
+import com.game.buildCityMenu.Menu;
 import com.game.miniGame.InputHandler;
-import com.game.miniGame.test.Test1;
 
 public class Main extends Game {
 
     private boolean gameStarted;
-    private Stage stage;
+    private Stage miniGameStage;
+    private Stage cityMenuStage;
     private InputHandler inputHandler;
 
     @Override
 	public void create () {
         AssetsFactory.instance().loadTextures();
-        stage = new Stage();
+        miniGameStage = new Stage();
+        cityMenuStage = new Stage();
         inputHandler = new InputHandler();
         Gdx.input.setInputProcessor(inputHandler);
 	}
@@ -31,7 +32,12 @@ public class Main extends Game {
             gameStarted = true;
             //TODO: study what Test1 really needs. Maybe some stuff could be injected as weell
             //instead of being created inside.
-            setScreen(new Test1(stage, inputHandler));
+
+            //MiniGame
+            //setScreen(new Test1(miniGameStage, inputHandler));
+
+            //Build city main menu
+            setScreen(new Menu(cityMenuStage));
         }
     }
 }

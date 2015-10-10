@@ -1,4 +1,4 @@
-package com.game.miniGame;
+package com.game;
 
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.graphics.Texture;
@@ -19,11 +19,10 @@ public class AssetsFactory {
     }
 
     public void loadTextures() {
+
+        //Minigame
         manager.load("cowboyBW.png", Texture.class);
-        manager.load("cowboyColor.png", Texture.class);
-        //manager.load("zombieR.png", Texture.class);
         manager.load("zombie_test_show_R.png", Texture.class);
-        //manager.load("zombieL.png", Texture.class);
         manager.load("zombie_test_show_L.png", Texture.class);
         manager.load("ufo.png", Texture.class);
         manager.load("ufoRay.png", Texture.class);
@@ -36,6 +35,17 @@ public class AssetsFactory {
         manager.load("church.png", Texture.class);
         manager.load("shotgun.jpg", Texture.class);
         manager.load("zombieHead.png", Texture.class);
+
+        //City Menu
+        manager.load("buttons/harvest.png", Texture.class);
+        manager.load("buttons/house.png", Texture.class);
+        manager.load("buttons/militia.png", Texture.class);
+        manager.load("buttons/wall.png", Texture.class);
+        manager.load("buttons/ok.png", Texture.class);
+        manager.load("buttons/plus.png", Texture.class);
+        manager.load("buttons/minus.png", Texture.class);
+        manager.load("buttons/markEmpty.png", Texture.class);
+        manager.load("buttons/markFilled.png", Texture.class);
     }
 
     public boolean assetsLoaded() {
@@ -45,21 +55,14 @@ public class AssetsFactory {
     public Texture getCowboyBW() {
         return manager.get("cowboyBW.png");
     }
-
-    public Texture getCowboyColor() {
-        return manager.get("cowboyColor.png");
-    }
-
     public Texture getWallGreen() { return manager.get("wall_green.png");}
     public Texture getWallYellow() { return manager.get("wall_yellow.png");}
     public Texture getWallRed() { return manager.get("wall_red.png");}
 
     public Texture getZombieLeft() {
-        //return manager.get("zombieL.png");
         return manager.get("zombie_test_show_L.png");
     }
     public Texture getZombieRight() {
-        //return manager.get("zombieR.png");
         return manager.get("zombie_test_show_R.png");
     }
     public Texture getHouse() {
@@ -78,6 +81,17 @@ public class AssetsFactory {
     public Texture getUfoRay() { return manager.get("ufoRay.png"); }
     public Texture getShotgun() { return manager.get("shotgun.jpg"); }
     public Texture getZombieHead() { return manager.get("zombieHead.png"); }
+
+
+    public Texture getButtonHarvest() { return manager.get("buttons/harvest.png"); }
+    public Texture getButtonHouse() { return manager.get("buttons/house.png"); }
+    public Texture getButtonMilitia() { return manager.get("buttons/militia.png"); }
+    public Texture getButtonWall() { return manager.get("buttons/wall.png"); }
+    public Texture getButtonOK() { return manager.get("buttons/ok.png"); }
+    public Texture getButtonPlus() { return manager.get("buttons/plus.png"); }
+    public Texture getButtonMinus() { return manager.get("buttons/minus.png"); }
+    public Texture getMarkEmpty() { return manager.get("buttons/markEmpty.png"); }
+    public Texture getMarkFilled() { return manager.get("buttons/markFilled.png"); }
 
     public void dispose() {
         manager.dispose();

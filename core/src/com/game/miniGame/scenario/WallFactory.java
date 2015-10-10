@@ -3,7 +3,7 @@ package com.game.miniGame.scenario;
 import com.badlogic.ashley.signals.Signal;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.math.Vector2;
-import com.game.miniGame.AssetsFactory;
+import com.game.AssetsFactory;
 import com.game.miniGame.board.BoardVO;
 import com.game.miniGame.board.GameBoard;
 import com.game.miniGame.board.GameScreenPos;

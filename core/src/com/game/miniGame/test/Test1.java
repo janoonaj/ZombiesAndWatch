@@ -6,6 +6,7 @@ import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
+import com.game.AssetsFactory;
 import com.game.miniGame.Config;
 import com.game.miniGame.miniGameEngine.MiniGameUpdater;
 import com.game.miniGame.board.GameBoard;
@@ -43,7 +44,7 @@ public class Test1 implements Screen {
     }
 
     private void createCowboy(com.game.miniGame.InputHandler inputHandler, com.game.miniGame.board.BoardVO board) {
-        cowboy = new com.game.miniGame.characters.Cowboy(com.game.miniGame.AssetsFactory.instance().getCowboyBW(), board);
+        cowboy = new com.game.miniGame.characters.Cowboy(AssetsFactory.instance().getCowboyBW(), board);
         stage.addActor(cowboy);
         inputHandler.subscribe(cowboy);
     }
@@ -73,7 +74,7 @@ public class Test1 implements Screen {
         timeCounter.setX(Gdx.graphics.getWidth() - 50);
         timeCounter.setY(Gdx.graphics.getHeight() - timeCounter.getHeight());
 
-        Image shotgun = new Image(com.game.miniGame.AssetsFactory.instance().getShotgun());
+        Image shotgun = new Image(AssetsFactory.instance().getShotgun());
         stage.addActor(shotgun);
         shotgun.setX(Gdx.graphics.getWidth() - shotgun.getWidth());
         shotgun.setY(0);
