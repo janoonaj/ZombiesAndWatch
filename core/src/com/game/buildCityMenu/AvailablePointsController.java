@@ -20,6 +20,8 @@ public class AvailablePointsController implements Panel {
         return table;
     }
 
+    public int getMarks() { return numMarked; }
+
     public void addMark() {
         numMarked++;
         prepareTable();

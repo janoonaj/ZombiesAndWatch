@@ -43,6 +43,8 @@ public class BuildCityController implements Panel {
         prepareTable();
     }
 
+    public int getMarks() { return numSelectedMarks; }
+
     public boolean canAddMark() {
         return numSelectedMarks < (numMaxMarks);
     }
@@ -99,7 +101,6 @@ public class BuildCityController implements Panel {
         return table;
     }
 
-    //@Override
     public void dispose() {
         onClick.removeAllListeners();
     }
