@@ -3,11 +3,12 @@ package com.game.miniGame.characters.ufos;
 import com.badlogic.ashley.signals.Signal;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.math.Vector2;
+import com.game.AssetsFactory;
 import com.game.miniGame.characters.Side;
 import com.game.miniGame.Config;
 import com.game.miniGame.board.BoardVO;
-import com.game.miniGame.signal.EventListener;
-import com.game.miniGame.signal.SignalListener;
+import com.game.signal.EventListener;
+import com.game.signal.SignalListener;
 
 //TODO: object pooling?
 public class UfoFactory implements SignalListener{
@@ -34,14 +35,14 @@ public class UfoFactory implements SignalListener{
 
     private Ufo createUfoRight() {
         int boardPos = board.gameBoard.getRighestPos();
-        Ufo ufo = flyUfo(boardPos, board.gameScreenPos.getScreenPosUfo(boardPos), com.game.miniGame.AssetsFactory.instance().getUfo());
+        Ufo ufo = flyUfo(boardPos, board.gameScreenPos.getScreenPosUfo(boardPos), AssetsFactory.instance().getUfo());
         metronome.subscribe(ufo);
         return ufo;
     }
 
     private Ufo createUfoLeft() {
         int boardPos = board.gameBoard.getLeftestPos();
-        Ufo ufo = flyUfo(boardPos, board.gameScreenPos.getScreenPosUfo(boardPos), com.game.miniGame.AssetsFactory.instance().getUfo());
+        Ufo ufo = flyUfo(boardPos, board.gameScreenPos.getScreenPosUfo(boardPos), AssetsFactory.instance().getUfo());
         metronome.subscribe(ufo);
         return ufo;
     }

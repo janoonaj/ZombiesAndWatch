@@ -4,6 +4,7 @@ package com.game.miniGame.characters.ufos;
 import com.badlogic.ashley.signals.Signal;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
+import com.game.AssetsFactory;
 
 import java.util.List;
 import java.util.Random;
@@ -80,7 +81,7 @@ public class Ufo extends Image implements com.game.miniGame.characters.Rhythmica
 
     private void extractHumans() {
         if (ray == null) {
-            Texture rayTexture = com.game.miniGame.AssetsFactory.instance().getUfoRay();
+            Texture rayTexture = AssetsFactory.instance().getUfoRay();
             ray = new Image(rayTexture);
             ray.setX(this.getX());
             ray.setY(this.getY() - this.getImageHeight() - rayTexture.getHeight());

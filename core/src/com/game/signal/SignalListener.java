@@ -1,4 +1,4 @@
-package com.game.miniGame.signal;
+package com.game.signal;
 
 import com.badlogic.ashley.signals.Signal;
 
