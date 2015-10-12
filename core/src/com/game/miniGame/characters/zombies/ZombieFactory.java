@@ -8,13 +8,14 @@ import com.game.miniGame.Metronome;
 import com.game.miniGame.board.BoardVO;
 import com.game.miniGame.characters.Side;
 import com.game.miniGame.Config;
-import com.game.miniGame.signal.EventListener;
+import com.game.signal.EventListener;
+import com.game.signal.SignalListener;
 
 import java.util.List;
 import java.util.Random;
 
 //TODO: object pooling
-public class ZombieFactory implements com.game.miniGame.signal.SignalListener {
+public class ZombieFactory implements SignalListener {
     private final Metronome metronomeLeft = new Metronome(Config.timeZombie);
     private final Metronome metronomeRight = new Metronome(Config.timeZombie);
     private final BoardVO board;

@@ -7,8 +7,8 @@ import com.game.AssetsFactory;
 import com.game.miniGame.characters.Side;
 import com.game.miniGame.Config;
 import com.game.miniGame.board.BoardVO;
-import com.game.miniGame.signal.EventListener;
-import com.game.miniGame.signal.SignalListener;
+import com.game.signal.EventListener;
+import com.game.signal.SignalListener;
 
 //TODO: object pooling?
 public class UfoFactory implements SignalListener{

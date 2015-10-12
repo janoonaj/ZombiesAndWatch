@@ -20,7 +20,6 @@ public class Main extends Game {
         miniGameStage = new Stage();
         cityMenuStage = new Stage();
         inputHandler = new InputHandler();
-        Gdx.input.setInputProcessor(inputHandler);
 	}
     @Override
     public void render() {
@@ -34,9 +33,11 @@ public class Main extends Game {
             //instead of being created inside.
 
             //MiniGame
+            //Gdx.input.setInputProcessor(inputHandler);
             //setScreen(new Test1(miniGameStage, inputHandler));
 
             //Build city main menu
+            Gdx.input.setInputProcessor(cityMenuStage);
             setScreen(new Menu(cityMenuStage));
         }
     }

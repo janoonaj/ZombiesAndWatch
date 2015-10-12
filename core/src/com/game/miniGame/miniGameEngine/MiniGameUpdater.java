@@ -4,11 +4,12 @@ import com.badlogic.ashley.signals.Signal;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.game.miniGame.characters.ufos.Ufo;
 import com.game.miniGame.characters.zombies.ZombieFactory;
-import com.game.miniGame.signal.EventListener;
+import com.game.signal.EventListener;
+import com.game.signal.SignalListener;
 
 import java.util.Random;
 
-public class MiniGameUpdater implements com.game.miniGame.signal.SignalListener {
+public class MiniGameUpdater implements SignalListener {
 
     private Stage stage;
     private ZombieFactory zombieFactory;

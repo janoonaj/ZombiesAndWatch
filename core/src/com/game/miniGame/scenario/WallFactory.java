@@ -7,8 +7,8 @@ import com.game.AssetsFactory;
 import com.game.miniGame.board.BoardVO;
 import com.game.miniGame.board.GameBoard;
 import com.game.miniGame.board.GameScreenPos;
-import com.game.miniGame.signal.EventListener;
-import com.game.miniGame.signal.SignalListener;
+import com.game.signal.EventListener;
+import com.game.signal.SignalListener;
 
 public class WallFactory implements SignalListener {
 

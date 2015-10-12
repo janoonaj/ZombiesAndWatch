@@ -15,7 +15,31 @@ public class AvailablePointsController implements Panel {
         prepareTable();
     }
 
+    @Override
+    public Table getTable() {
+        return table;
+    }
+
+    public void addMark() {
+        numMarked++;
+        prepareTable();
+    }
+
+    public void removeMark() {
+        numMarked--;
+        prepareTable();
+    }
+
+    public boolean canAddMark() {
+        return numMarked < (NUM_ROWS * NUM_COLUMNS);
+    }
+
+    public boolean canRemoveMark() {
+        return numMarked > 0;
+    }
+
     private void prepareTable() {
+        table.reset();
         int contMarks = 0;
         int marksTotal = NUM_COLUMNS * NUM_ROWS;
         for(int rowIndex = 0; rowIndex < NUM_ROWS; rowIndex++) {
@@ -44,10 +68,5 @@ public class AvailablePointsController implements Panel {
         image.setOrigin(image.getWidth()/2, image.getHeight()/2);
         image.setRotation(90);
         return image;
-    }
-
-    @Override
-    public Table getTable() {
-        return table;
     }
 }
