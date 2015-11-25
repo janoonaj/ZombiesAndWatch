@@ -7,11 +7,11 @@ import com.badlogic.gdx.scenes.scene2d.ui.Table;
 
 public class CityInfoPanel implements Panel {
 
-    private final CityInfoVO cityInfo;
+    private final com.game.CityInfoVO cityInfo;
     private Table table;
     private Skin skin;
 
-    public CityInfoPanel(CityInfoVO cityInfo) {
+    public CityInfoPanel(com.game.CityInfoVO cityInfo) {
         this.cityInfo = cityInfo;
         skin = new Skin(Gdx.files.internal("skins.json"));
         table = new Table();

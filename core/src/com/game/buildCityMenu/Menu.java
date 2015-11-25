@@ -8,7 +8,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
-import com.game.AssetsFactory;
+import com.game.*;
 import com.game.buildCityMenu.buildCityButtons.ButtonType;
 import com.game.buildCityMenu.buildCityButtons.ClickEventVO;
 import com.game.buildCityMenu.buildCityButtons.ControllerType;
@@ -28,7 +28,7 @@ public class Menu implements Screen, SignalListener {
 
     public Menu(Stage stage) {
         this.stage = stage;
-        cityInfoPanel = new CityInfoPanel(CityInfoVO.test());
+        cityInfoPanel = new CityInfoPanel(com.game.CityInfoVO.test());
         controllers.put(ControllerType.HOUSE,
                 new com.game.buildCityMenu.buildCityButtons.BuildCityController(AssetsFactory.instance().getButtonHouse(), ControllerType.HOUSE, 10));
         controllers.put(ControllerType.HARVEST,
