@@ -19,16 +19,16 @@ public class Rules {
 
     public static CityInfoVO updateCityInfo(BuildCityPointsVO buildCityPoints, CityInfoVO cityInfo) {
         if(buildCityPoints.getHouse() > 0 ) {
-            cityInfo = CityInfoVO.copyMaxPopulation(cityInfo, 25 * buildCityPoints.getHouse());
+            cityInfo = CityInfoVO.copyMaxPopulation(cityInfo, cityInfo.getMaxPopulation() + 25 * buildCityPoints.getHouse());
         }
         if(buildCityPoints.getHarvest() > 0) {
-            cityInfo = CityInfoVO.copyFood(cityInfo, 1000 * buildCityPoints.getHarvest());
+            cityInfo = CityInfoVO.copyFood(cityInfo, cityInfo.getFood() + 1000 * buildCityPoints.getHarvest());
         }
         if(buildCityPoints.getMilitia() > 0) {
-            cityInfo = CityInfoVO.copyMilitia(cityInfo, buildCityPoints.getMilitia());
+            cityInfo = CityInfoVO.copyMilitia(cityInfo, cityInfo.getMilitiaLevel() + buildCityPoints.getMilitia());
         }
         if(buildCityPoints.getWall() > 0) {
-            cityInfo = CityInfoVO.copyDefenses(cityInfo, 2 * buildCityPoints.getWall());
+            cityInfo = CityInfoVO.copyDefenses(cityInfo, cityInfo.getDefenses() + 2 * buildCityPoints.getWall());
         }
         return cityInfo;
     }

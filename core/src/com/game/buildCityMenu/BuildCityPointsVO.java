@@ -28,4 +28,27 @@ public class BuildCityPointsVO {
     public int getMilitia() {
         return militia;
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        BuildCityPointsVO that = (BuildCityPointsVO) o;
+
+        if (house != that.house) return false;
+        if (harvest != that.harvest) return false;
+        if (wall != that.wall) return false;
+        return militia == that.militia;
+
+    }
+
+    @Override
+    public int hashCode() {
+        int result = house;
+        result = 31 * result + harvest;
+        result = 31 * result + wall;
+        result = 31 * result + militia;
+        return result;
+    }
 }

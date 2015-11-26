@@ -4,14 +4,15 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
+import com.game.CityInfoVO;
 
 public class CityInfoPanel implements Panel {
 
-    private final com.game.CityInfoVO cityInfo;
+    private final CityInfoVO cityInfo;
     private Table table;
     private Skin skin;
 
-    public CityInfoPanel(com.game.CityInfoVO cityInfo) {
+    public CityInfoPanel(CityInfoVO cityInfo) {
         this.cityInfo = cityInfo;
         skin = new Skin(Gdx.files.internal("skins.json"));
         table = new Table();

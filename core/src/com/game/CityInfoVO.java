@@ -8,7 +8,7 @@ public class CityInfoVO {
     private final int defenses;
 
     public static CityInfoVO test() {
-        return new CityInfoVO(1000, 1500, 23000, 2, 55);
+        return new com.game.CityInfoVO(1000, 1500, 23000, 2, 55);
     }
 
     public static CityInfoVO copyPopulation(CityInfoVO info, int data) {
@@ -58,5 +58,30 @@ public class CityInfoVO {
 
     public int getDefenses() {
         return defenses;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        CityInfoVO that = (CityInfoVO) o;
+
+        if (population != that.population) return false;
+        if (maxPopulation != that.maxPopulation) return false;
+        if (food != that.food) return false;
+        if (militiaLevel != that.militiaLevel) return false;
+        return defenses == that.defenses;
+
+    }
+
+    @Override
+    public int hashCode() {
+        int result = population;
+        result = 31 * result + maxPopulation;
+        result = 31 * result + food;
+        result = 31 * result + militiaLevel;
+        result = 31 * result + defenses;
+        return result;
     }
 }
