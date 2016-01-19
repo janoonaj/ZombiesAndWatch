@@ -8,16 +8,26 @@ import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.game.AssetsFactory;
 import com.game.miniGame.Config;
-import com.game.miniGame.miniGameEngine.MiniGameUpdater;
+import com.game.miniGame.MinigameInputHandler;
+import com.game.miniGame.board.BoardVO;
 import com.game.miniGame.board.GameBoard;
+import com.game.miniGame.board.GameScreenPos;
+import com.game.miniGame.characters.Cowboy;
+import com.game.miniGame.characters.ufos.UfoFactory;
 import com.game.miniGame.characters.zombies.ZombieFactory;
-import com.game.miniGame.scenario.Population;
 
-public class Test1 implements Screen {
+import com.game.miniGame.miniGameEngine.FactoriesVO;
+import com.game.miniGame.miniGameEngine.MiniGameUpdater;
+import com.game.miniGame.miniGameEngine.OrchestraConductor;
+import com.game.miniGame.scenario.*;
+
+
+public class GameWatchGame implements Screen {
+    private final MinigameInputHandler minigameInputHandler;
     private final ZombieFactory zombieFactory;
-    private final com.game.miniGame.scenario.WallFactory wallFactory;
-    private final com.game.miniGame.scenario.HouseFactory houseFactory;
-    private final com.game.miniGame.characters.ufos.UfoFactory ufoFactory;
+    private final WallFactory wallFactory;
+    private final HouseFactory houseFactory;
+    private final UfoFactory ufoFactory;
     private final MiniGameUpdater updater;
     private Stage stage;
     private com.game.miniGame.characters.Cowboy cowboy;
@@ -26,27 +36,28 @@ public class Test1 implements Screen {
     private Label timeCounter;
     private float mSecsPassed = 0;
 
-    public Test1(Stage stage, com.game.miniGame.InputHandler inputHandler) {
+    public GameWatchGame(Stage stage, MinigameInputHandler minigameInputHandler) {
         this.stage = stage;
+        this.minigameInputHandler = minigameInputHandler;
         GameBoard gameBoard = new GameBoard();
-        com.game.miniGame.board.BoardVO board = new com.game.miniGame.board.BoardVO(gameBoard, new com.game.miniGame.board.GameScreenPos(gameBoard));
+        BoardVO board = new BoardVO(gameBoard, new GameScreenPos(gameBoard));
         this.zombieFactory = new ZombieFactory(board);
-        this.wallFactory = new com.game.miniGame.scenario.WallFactory(board);
-        this.houseFactory = new com.game.miniGame.scenario.HouseFactory(board);
-        this.ufoFactory = new com.game.miniGame.characters.ufos.UfoFactory(board);
-        com.game.miniGame.miniGameEngine.FactoriesVO factories = new com.game.miniGame.miniGameEngine.FactoriesVO(zombieFactory, ufoFactory, wallFactory, houseFactory);
-        com.game.miniGame.miniGameEngine.OrchestraConductor orchestraConductor = new com.game.miniGame.miniGameEngine.OrchestraConductor(factories);
+        this.wallFactory = new WallFactory(board);
+        this.houseFactory = new HouseFactory(board);
+        this.ufoFactory = new UfoFactory(board);
+        FactoriesVO factories = new FactoriesVO(zombieFactory, ufoFactory, wallFactory, houseFactory);
+        OrchestraConductor orchestraConductor = new OrchestraConductor(factories);
         updater = new MiniGameUpdater(stage, factories, numMaxUfo, orchestraConductor);
-        createCowboy(inputHandler, board);
+        createCowboy(board);
         createWalls();
         createHouses();
         createUI();
     }
 
-    private void createCowboy(com.game.miniGame.InputHandler inputHandler, com.game.miniGame.board.BoardVO board) {
-        cowboy = new com.game.miniGame.characters.Cowboy(AssetsFactory.instance().getCowboyBW(), board);
+    private void createCowboy(BoardVO board) {
+        cowboy = new Cowboy(AssetsFactory.instance().getCowboyBW(), board);
         stage.addActor(cowboy);
-        inputHandler.subscribe(cowboy);
+        minigameInputHandler.subscribe(cowboy);
     }
 
     private void createWalls() {
@@ -87,7 +98,7 @@ public class Test1 implements Screen {
 
     @Override
     public void render(float delta) {
-        if(mSecsPassed < Config.finalMiniGame) {
+        if (mSecsPassed < Config.finalMiniGame) {
             updater.render(delta);
             mSecsPassed += delta;
             timeCounter.setText(Integer.toString((int) mSecsPassed));
@@ -119,6 +130,6 @@ public class Test1 implements Screen {
 
     @Override
     public void dispose() {
-
+        this.minigameInputHandler.unsubscribeAll();
     }
 }

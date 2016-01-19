@@ -8,15 +8,15 @@ import com.game.miniGame.test.Interactive;
 import java.util.ArrayList;
 import java.util.List;
 
-public class InputHandler extends InputAdapter {
+public class MinigameInputHandler extends InputAdapter {
     List<Interactive> interactives = new ArrayList<Interactive>();
 
     public void subscribe(Interactive interactive) {
         interactives.add(interactive);
     }
 
-    public void unsubscribe(Interactive interactive) {
-        interactives.remove(interactive);
+    public void unsubscribeAll() {
+        interactives.clear();
     }
 
     @Override

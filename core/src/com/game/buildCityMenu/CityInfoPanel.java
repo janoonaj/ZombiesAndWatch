@@ -23,7 +23,7 @@ public class CityInfoPanel implements Panel {
         Label population = new Label("Population: " + cityInfo.getPopulation(), skin);
         Label maxPopulation = new Label("MaxPopulation: " + cityInfo.getMaxPopulation(), skin);
         Label food = new Label("Food: " +  cityInfo.getFood(), skin);
-        Label militia = new Label("Militia: Lvl"  +  cityInfo.getMilitiaLevel(), skin);
+        Label militia = new Label("Militia: Lvl"  +  cityInfo.getMilitiaPoints(), skin);
         Label defenses = new Label("Defenses: " +  cityInfo.getDefenses() + "%", skin);
         table.add(population).uniform();
         table.add(food).uniform();

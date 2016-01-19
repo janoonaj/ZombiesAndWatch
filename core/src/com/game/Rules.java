@@ -1,11 +1,10 @@
-package com.game.city;
+package com.game;
 
-import com.game.CityInfoVO;
 import com.game.buildCityMenu.BuildCityPointsVO;
 
 public class Rules {
 
-    public static int newPopulation(CityInfoVO city) {
+    public static CityInfoVO newPopulation(CityInfoVO city) {
         int newPopulation = city.getPopulation();
 
         if(city.getFood() < newPopulation) newPopulation -= (newPopulation - city.getFood() / 2);
@@ -14,7 +13,7 @@ public class Rules {
         if(city.getDefenses() < 30) newPopulation -= newPopulation / 10;
         if(city.getDefenses() > 60) newPopulation += newPopulation / 10;
 
-        return Math.min(newPopulation, city.getMaxPopulation());
+        return CityInfoVO.copyPopulation(city, Math.min(newPopulation, city.getMaxPopulation()));
     }
 
     public static CityInfoVO updateCityInfo(BuildCityPointsVO buildCityPoints, CityInfoVO cityInfo) {
@@ -25,7 +24,7 @@ public class Rules {
             cityInfo = CityInfoVO.copyFood(cityInfo, cityInfo.getFood() + 1000 * buildCityPoints.getHarvest());
         }
         if(buildCityPoints.getMilitia() > 0) {
-            cityInfo = CityInfoVO.copyMilitia(cityInfo, cityInfo.getMilitiaLevel() + buildCityPoints.getMilitia());
+            cityInfo = CityInfoVO.copyMilitia(cityInfo, cityInfo.getMilitiaPoints() + buildCityPoints.getMilitia());
         }
         if(buildCityPoints.getWall() > 0) {
             cityInfo = CityInfoVO.copyDefenses(cityInfo, cityInfo.getDefenses() + 2 * buildCityPoints.getWall());

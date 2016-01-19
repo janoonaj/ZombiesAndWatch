@@ -39,7 +39,7 @@ public class Metronome {
     private void refreshUpdateTimeIfItHasToAccelerate() {
         if(newUpdateTimeAccelerated == 0f) return;
 
-        Logger.print("accelerated: before was " + updateTime + " now is " + newUpdateTimeAccelerated);
+        com.game.Logger.print("accelerated: before was " + updateTime + " now is " + newUpdateTimeAccelerated);
         updateTime = newUpdateTimeAccelerated;
         newUpdateTimeAccelerated = 0f;
     }

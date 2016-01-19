@@ -13,6 +13,7 @@ import com.game.CityInfoVO;
 import com.game.buildCityMenu.buildCityButtons.ButtonType;
 import com.game.buildCityMenu.buildCityButtons.ClickEventVO;
 import com.game.buildCityMenu.buildCityButtons.ControllerType;
+import com.game.messages.CityBuildMenuMssg;
 import com.game.signal.EventListener;
 import com.game.signal.SignalListener;
 
@@ -21,14 +22,18 @@ import java.util.Hashtable;
 public class Menu implements Screen, SignalListener {
     private Stage stage;
     private Table table;
+    private Table tableDown;
     private CityInfoPanel cityInfoPanel;
     Hashtable<Integer, com.game.buildCityMenu.buildCityButtons.BuildCityController> controllers = new Hashtable<Integer, com.game.buildCityMenu.buildCityButtons.BuildCityController>();
     private AvailablePointsController availablePointsController;
     private ImageButton bttnOK;
     public Signal onFinished = new Signal();
+    private CityInfoVO cityInfo;
+    private CityInfoVO finalCity;
 
     public Menu(Stage stage, CityInfoVO cityInfoVO) {
         this.stage = stage;
+        this.cityInfo = cityInfoVO;
         cityInfoPanel = new CityInfoPanel(cityInfoVO);
         controllers.put(ControllerType.HOUSE,
                 new com.game.buildCityMenu.buildCityButtons.BuildCityController(AssetsFactory.instance().getButtonHouse(), ControllerType.HOUSE, 10));
@@ -52,18 +57,14 @@ public class Menu implements Screen, SignalListener {
         table.setFillParent(true);
         table.setDebug(true);
         stage.addActor(table);
-        Table tableDown = new Table();
-        Table tableDownLeft = new Table().left();
-        Table tableDownRight = new Table().right();
-        tableDownLeft.add(controllers.get(ControllerType.HOUSE).getTable()).padBottom(10);
-        tableDownLeft.add(controllers.get(ControllerType.HARVEST).getTable()).padBottom(10);
-        tableDownLeft.add(availablePointsController.getTable()).padBottom(10);
-        tableDownLeft.row();
-        tableDownLeft.add(controllers.get(ControllerType.WALL).getTable());
-        tableDownLeft.add(controllers.get(ControllerType.MILITIA).getTable());
-        tableDownLeft.add(bttnOK);
-        tableDown.add(tableDownLeft);
-        tableDown.add(tableDownRight);
+        tableDown = new Table().left();
+        tableDown.add(controllers.get(ControllerType.HOUSE).getTable()).padBottom(10);
+        tableDown.add(controllers.get(ControllerType.HARVEST).getTable()).padBottom(10);
+        tableDown.add(availablePointsController.getTable()).padBottom(10);
+        tableDown.row();
+        tableDown.add(controllers.get(ControllerType.WALL).getTable());
+        tableDown.add(controllers.get(ControllerType.MILITIA).getTable());
+        tableDown.add(bttnOK);
         table.add(cityInfoPanel.getTable()).padBottom(20);
         table.row();
         table.add(tableDown);
@@ -75,11 +76,20 @@ public class Menu implements Screen, SignalListener {
         bttnOK.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                onFinished.dispatch(new BuildCityPointsVO(
-                        controllers.get(ControllerType.HOUSE).getMarks(),
-                        controllers.get(ControllerType.HARVEST).getMarks(),
-                        controllers.get(ControllerType.WALL).getMarks(),
-                        controllers.get(ControllerType.MILITIA).getMarks()));
+                if(finalCity == null) {
+                    finalCity = Rules.updateCityInfo(new BuildCityPointsVO(
+                            controllers.get(ControllerType.HOUSE).getMarks(),
+                            controllers.get(ControllerType.HARVEST).getMarks(),
+                            controllers.get(ControllerType.WALL).getMarks(),
+                            controllers.get(ControllerType.MILITIA).getMarks()), cityInfo);
+                    finalCity = Rules.newPopulation(finalCity);
+
+                    disposeControllers();
+                    table.reset();
+                    showResults(cityInfo, finalCity);
+                } else {
+                        onFinished.dispatch(new CityBuildMenuMssg(finalCity));
+                }
             }
         });
     }
@@ -101,6 +111,12 @@ public class Menu implements Screen, SignalListener {
             bttnOK.setVisible(true);
         else
             bttnOK.setVisible(false);
+    }
+
+    public void showResults(CityInfoVO cityPrev, CityInfoVO cityNext) {
+        CityInfoResultsPanel resultPanel = new CityInfoResultsPanel(cityPrev, cityNext, bttnOK);
+        table.add(resultPanel.getTable());
+        table.add(bttnOK).expand();
     }
 
     @Override
@@ -134,12 +150,16 @@ public class Menu implements Screen, SignalListener {
 
     }
 
-    @Override
-    public void dispose() {
+    public void disposeControllers() {
         controllers.get(ControllerType.HOUSE).dispose();
         controllers.get(ControllerType.HARVEST).dispose();
         controllers.get(ControllerType.WALL).dispose();
         controllers.get(ControllerType.MILITIA).dispose();
+    }
+
+    @Override
+    public void dispose() {
+
         onFinished.removeAllListeners();
     }
 }

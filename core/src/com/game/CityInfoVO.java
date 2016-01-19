@@ -4,7 +4,7 @@ public class CityInfoVO {
     private final int population;
     private final int maxPopulation;
     private final int food;
-    private final int militiaLevel;
+    private final int militiaPoints;
     private final int defenses;
 
     public static CityInfoVO test() {
@@ -12,15 +12,15 @@ public class CityInfoVO {
     }
 
     public static CityInfoVO copyPopulation(CityInfoVO info, int data) {
-        return new CityInfoVO(data, info.getMaxPopulation(), info.getFood(), info.getMilitiaLevel(), info.getDefenses());
+        return new CityInfoVO(data, info.getMaxPopulation(), info.getFood(), info.getMilitiaPoints(), info.getDefenses());
     }
 
     public static CityInfoVO copyMaxPopulation(CityInfoVO info, int data) {
-        return new CityInfoVO(info.getPopulation(), data, info.getFood(), info.getMilitiaLevel(), info.getDefenses());
+        return new CityInfoVO(info.getPopulation(), data, info.getFood(), info.getMilitiaPoints(), info.getDefenses());
     }
 
     public static CityInfoVO copyFood(CityInfoVO info, int data) {
-        return new CityInfoVO(info.getPopulation(), info.getMaxPopulation(), data, info.getMilitiaLevel(), info.getDefenses());
+        return new CityInfoVO(info.getPopulation(), info.getMaxPopulation(), data, info.getMilitiaPoints(), info.getDefenses());
     }
 
     public static CityInfoVO copyMilitia(CityInfoVO info, int data) {
@@ -29,14 +29,14 @@ public class CityInfoVO {
 
     public static CityInfoVO copyDefenses(CityInfoVO info, int data) {
         return new CityInfoVO(info.getPopulation(), info.getMaxPopulation(),
-                                info.getFood(), info.getMilitiaLevel(), Math.min(100, data));
+                                info.getFood(), info.getMilitiaPoints(), Math.min(100, data));
     }
 
-    public CityInfoVO(int population, int maxPopulation, int food, int militiaLevel, int defenses) {
+    public CityInfoVO(int population, int maxPopulation, int food, int militiaPoints, int defenses) {
         this.population = population;
         this.maxPopulation = maxPopulation;
         this.food = food;
-        this.militiaLevel = militiaLevel;
+        this.militiaPoints = militiaPoints;
         this.defenses = defenses;
     }
 
@@ -52,12 +52,20 @@ public class CityInfoVO {
         return food;
     }
 
-    public int getMilitiaLevel() {
-        return militiaLevel;
+    public int getMilitiaPoints() {
+        return militiaPoints;
     }
 
     public int getDefenses() {
         return defenses;
+    }
+
+    public int getMilitiaLevel() {
+        if(militiaPoints < 3) return 1;
+        if(militiaPoints < 8) return 2;
+        if(militiaPoints < 18) return 3;
+        if(militiaPoints < 38) return 4;
+        return 5;
     }
 
     @Override
@@ -70,7 +78,7 @@ public class CityInfoVO {
         if (population != that.population) return false;
         if (maxPopulation != that.maxPopulation) return false;
         if (food != that.food) return false;
-        if (militiaLevel != that.militiaLevel) return false;
+        if (militiaPoints != that.militiaPoints) return false;
         return defenses == that.defenses;
 
     }
@@ -80,8 +88,15 @@ public class CityInfoVO {
         int result = population;
         result = 31 * result + maxPopulation;
         result = 31 * result + food;
-        result = 31 * result + militiaLevel;
+        result = 31 * result + militiaPoints;
         result = 31 * result + defenses;
         return result;
+    }
+
+    @Override
+    public String toString() {
+        String mssg = "Population: " + population + " Max Pop: " + maxPopulation + " Food: " + food +
+                " Militia: " + militiaPoints + " Militia level: " + getMilitiaLevel() + " Defenses: " + defenses;
+        return mssg;
     }
 }
