@@ -46,6 +46,11 @@ public class AssetsFactory {
         manager.load("buttons/minus.png", Texture.class);
         manager.load("buttons/markEmpty.png", Texture.class);
         manager.load("buttons/markFilled.png", Texture.class);
+        manager.load("icons/house.png", Texture.class);
+        manager.load("icons/militia.png", Texture.class);
+        manager.load("icons/wall.png", Texture.class);
+        manager.load("icons/harvest.png", Texture.class);
+        manager.load("icons/population.png", Texture.class);
     }
 
     public boolean assetsLoaded() {
@@ -92,6 +97,12 @@ public class AssetsFactory {
     public Texture getButtonMinus() { return manager.get("buttons/minus.png"); }
     public Texture getMarkEmpty() { return manager.get("buttons/markEmpty.png"); }
     public Texture getMarkFilled() { return manager.get("buttons/markFilled.png"); }
+
+    public Texture getIconHouse() { return manager.get("icons/house.png"); }
+    public Texture getIconMilitia() { return manager.get("icons/militia.png"); }
+    public Texture getIconWall() { return manager.get("icons/wall.png"); }
+    public Texture getIconHarvest() { return manager.get("icons/harvest.png"); }
+    public Texture getIconPopulation() { return manager.get("icons/population.png"); }
 
     public void dispose() {
         manager.dispose();

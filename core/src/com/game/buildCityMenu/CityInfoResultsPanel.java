@@ -1,11 +1,15 @@
 package com.game.buildCityMenu;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.scenes.scene2d.ui.Cell;
+import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.utils.Timer;
+import com.game.AssetsFactory;
 import com.game.CityInfoVO;
 
 import java.util.Arrays;
@@ -28,11 +32,16 @@ public class CityInfoResultsPanel implements Panel {
         final Label titleBonus = new Label("BONUS", skinBold);
         Label titleAfter = new Label("CITY", skinBold);
 
-        Label population = new Label("Population", skinBold);
-        Label maxPopulation = new Label("MaxPopulation", skinBold);
-        Label food = new Label("Food", skinBold);
-        Label militia = new Label("Militia", skinBold);
-        Label defenses = new Label("Defenses", skinBold);
+        //Label population = new Label("Population", skinBold);
+        Image population = new Image(AssetsFactory.instance().getIconPopulation());
+        //Label maxPopulation = new Label("MaxPopulation", skinBold);
+        Image maxPopulation = new Image(AssetsFactory.instance().getIconHouse());
+        //Label food = new Label("Food", skinBold);
+        Image food = new Image(AssetsFactory.instance().getIconHarvest());
+        //Label militia = new Label("Militia", skinBold);
+        Image militia = new Image(AssetsFactory.instance().getIconMilitia());
+        //Label defenses = new Label("Defenses", skinBold);
+        Image defenses = new Image(AssetsFactory.instance().getIconWall());
 
         Label populationBefore = new Label(cityPrev.getPopulation() + "", skin);
         Label maxPopulationBefore = new Label(cityPrev.getMaxPopulation() + "", skin);
@@ -63,27 +72,27 @@ public class CityInfoResultsPanel implements Panel {
         table.add(titleBonus).uniform().pad(20);
         table.add(titleAfter).uniform().pad(20);
         table.row();
-        table.add(food).uniform().pad(20);
+        configIcon(table.add(food));//.uniform().pad(20);
         table.add(foodBefore).uniform().pad(20);
         table.add(foodBonus).uniform().pad(20);
         table.add(foodAfter).uniform().pad(20);
         table.row();
-        table.add(militia).uniform().pad(20);
+        configIcon(table.add(militia));//.uniform().pad(20);
         table.add(militiaBefore).uniform().pad(20);
         table.add(militiaBonus).uniform().pad(20);
         table.add(militiaAfter).uniform().pad(20);
         table.row();
-        table.add(defenses).uniform().pad(20);
+        configIcon(table.add(defenses));//.uniform().pad(20);
         table.add(defensesBefore).uniform().pad(20);
         table.add(defensesBonus).uniform().pad(20);
         table.add(defensesAfter).uniform().pad(20);
         table.row();
-        table.add(maxPopulation).uniform().pad(20);
+        configIcon(table.add(maxPopulation));//.uniform().pad(20);
         table.add(maxPopulationBefore).uniform().pad(20);
         table.add(maxPopulationBonus).uniform().pad(20);
         table.add(maxPopulationAfter).uniform().pad(20);
         table.row();
-        table.add(population).uniform().pad(20);
+        configIcon(table.add(population));//.uniform().pad(20);
         table.add(populationBefore).uniform().pad(20);
         table.add(populationBonus).uniform().pad(20);
         table.add(populationAfter).uniform().pad(20);
@@ -122,6 +131,10 @@ public class CityInfoResultsPanel implements Panel {
         Timer.schedule(new Timer.Task() {
             @Override
             public void run() {labels.get(9).setVisible(true);bttnOK.setVisible(true); }}, 10*timeMult, 1, 1);
+    }
+
+    private void configIcon(Cell cell) {
+        cell.uniform().pad(20);
     }
 
     private String parseBonus(int bonus, String extraChar) {

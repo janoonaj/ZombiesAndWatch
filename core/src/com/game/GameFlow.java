@@ -6,7 +6,6 @@ import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.game.buildCityMenu.BuildCityPointsVO;
 import com.game.buildCityMenu.CityInfoResultsPanel;
 import com.game.buildCityMenu.Menu;
-import com.game.messages.CityBuildMenuMssg;
 import com.game.miniGame.MinigameInputHandler;
 import com.game.miniGame.test.GameWatchGame;
 import com.game.signal.EventListener;
@@ -27,11 +26,17 @@ public class GameFlow implements SignalListener {
 
         menu.onFinished.add(new EventListener(this));
 
+
+
+//        Gdx.input.setInputProcessor(minigameInputHandler);
+//        GameWatchGame minigame = new GameWatchGame(currentStage, minigameInputHandler);
+//        onChangeScreen.dispatch(minigame);
+
     }
 
     @Override
     public void signalReceived(Signal signal, Object data) {
-        if(data instanceof CityBuildMenuMssg) {
+        if(data instanceof CityInfoVO) {
             int asd = 3;
 //            CityInfoVO newCity = Rules.updateCityInfo((BuildCityPointsVO)data, cityInfoVO);
 //            CityInfoResultsPanel results = new CityInfoResultsPanel(cityInfoVO, newCity);

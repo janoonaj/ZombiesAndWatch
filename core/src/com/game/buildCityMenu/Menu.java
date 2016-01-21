@@ -10,6 +10,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.game.*;
 import com.game.CityInfoVO;
+import com.game.buildCityMenu.buildCityButtons.BuildCityController;
 import com.game.buildCityMenu.buildCityButtons.ButtonType;
 import com.game.buildCityMenu.buildCityButtons.ClickEventVO;
 import com.game.buildCityMenu.buildCityButtons.ControllerType;
@@ -24,7 +25,7 @@ public class Menu implements Screen, SignalListener {
     private Table table;
     private Table tableDown;
     private CityInfoPanel cityInfoPanel;
-    Hashtable<Integer, com.game.buildCityMenu.buildCityButtons.BuildCityController> controllers = new Hashtable<Integer, com.game.buildCityMenu.buildCityButtons.BuildCityController>();
+    Hashtable<Integer, BuildCityController> controllers = new Hashtable<Integer, com.game.buildCityMenu.buildCityButtons.BuildCityController>();
     private AvailablePointsController availablePointsController;
     private ImageButton bttnOK;
     public Signal onFinished = new Signal();
@@ -36,13 +37,13 @@ public class Menu implements Screen, SignalListener {
         this.cityInfo = cityInfoVO;
         cityInfoPanel = new CityInfoPanel(cityInfoVO);
         controllers.put(ControllerType.HOUSE,
-                new com.game.buildCityMenu.buildCityButtons.BuildCityController(AssetsFactory.instance().getButtonHouse(), ControllerType.HOUSE, 10));
+                new BuildCityController(AssetsFactory.instance().getButtonHouse(), ControllerType.HOUSE, 10));
         controllers.put(ControllerType.HARVEST,
-                new com.game.buildCityMenu.buildCityButtons.BuildCityController(AssetsFactory.instance().getButtonHarvest(), ControllerType.HARVEST, 10));
+                new BuildCityController(AssetsFactory.instance().getButtonHarvest(), ControllerType.HARVEST, 10));
         controllers.put(ControllerType.WALL,
-                new com.game.buildCityMenu.buildCityButtons.BuildCityController(AssetsFactory.instance().getButtonWall(), ControllerType.WALL, 10));
+                new BuildCityController(AssetsFactory.instance().getButtonWall(), ControllerType.WALL, 10));
         controllers.put(ControllerType.MILITIA,
-                new com.game.buildCityMenu.buildCityButtons.BuildCityController(AssetsFactory.instance().getButtonMilitia(), ControllerType.MILITIA, 10));
+                new BuildCityController(AssetsFactory.instance().getButtonMilitia(), ControllerType.MILITIA, 10));
         controllers.get(ControllerType.HOUSE).onClick.add(new EventListener(this));
         controllers.get(ControllerType.HARVEST).onClick.add(new EventListener(this));
         controllers.get(ControllerType.WALL).onClick.add(new EventListener(this));
