@@ -1,4 +1,4 @@
-package com.game.miniGame.test;
+package com.game.miniGame;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
@@ -130,6 +130,5 @@ public class GameWatchGame implements Screen {
 
     @Override
     public void dispose() {
-        this.minigameInputHandler.unsubscribeAll();
     }
 }

@@ -6,9 +6,8 @@ import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.game.miniGame.characters.ufos.Ufo;
 import com.game.miniGame.Config;
 import com.game.miniGame.board.GameBoard;
-import com.game.miniGame.test.Interactive;
 
-public class Cowboy extends Image implements Interactive{
+public class Cowboy extends Image{
 
     private final GameBoard gameBoard;
     private final com.game.miniGame.board.GameScreenPos gameScreenPos;
@@ -22,17 +21,12 @@ public class Cowboy extends Image implements Interactive{
         updateScreenPos();
     }
 
-    @Override
     public void pressedLeft() {
         doStuff(pos-1);
     }
-
-    @Override
     public void pressedRight() {
         doStuff(pos+1);
     }
-
-    @Override
     public void shoot() {
         if(attackZombie(pos)) return;
         if(attackUfo()) return;

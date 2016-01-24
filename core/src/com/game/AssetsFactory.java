@@ -35,6 +35,8 @@ public class AssetsFactory {
         manager.load("church.png", Texture.class);
         manager.load("shotgun.jpg", Texture.class);
         manager.load("zombieHead.png", Texture.class);
+        manager.load("militia.png", Texture.class);
+        manager.load("militiaMark.png", Texture.class);
 
         //City Menu
         manager.load("buttons/harvest.png", Texture.class);
@@ -63,6 +65,8 @@ public class AssetsFactory {
     public Texture getWallGreen() { return manager.get("wall_green.png");}
     public Texture getWallYellow() { return manager.get("wall_yellow.png");}
     public Texture getWallRed() { return manager.get("wall_red.png");}
+    public Texture getMilitia() { return manager.get("militia.png");}
+    public Texture getMilitiaMark() { return manager.get("militiaMark.png");}
 
     public Texture getZombieLeft() {
         return manager.get("zombie_test_show_L.png");

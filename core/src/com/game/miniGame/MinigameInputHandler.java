@@ -3,66 +3,50 @@ package com.game.miniGame;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputAdapter;
-import com.game.miniGame.test.Interactive;
-
-import java.util.ArrayList;
-import java.util.List;
+import com.game.miniGame.characters.Cowboy;
 
 public class MinigameInputHandler extends InputAdapter {
-    List<Interactive> interactives = new ArrayList<Interactive>();
+    private Cowboy player;
 
-    public void subscribe(Interactive interactive) {
-        interactives.add(interactive);
-    }
-
-    public void unsubscribeAll() {
-        interactives.clear();
+    public void subscribe(Cowboy cowboy) {
+        player = cowboy;
     }
 
     @Override
     public boolean keyDown(int keycode) {
         if (keycode == Input.Keys.LEFT) {
-            pressLeft();
+            player.pressedLeft();
         }
         if (keycode == Input.Keys.RIGHT) {
-            pressRight();
+            player.pressedRight();
         }
         if(keycode == Input.Keys.SPACE) {
-            shoot();
+            player.shoot();
         }
         return false;
     }
 
     public boolean touchDown(int screenX, int screenY, int pointer, int button) {
-        if (screenX <= Gdx.graphics.getWidth() / 2) {
-            pressLeft();
-        } else {
-            if(screenY >= Gdx.graphics.getHeight() - Gdx.graphics.getHeight() / 5) {
-                shoot();
-            }
-            else {
-                pressRight();
-            }
+        if(!touchDownMilitia(screenX, screenY)) {
+            touchDownCowboy(screenX, screenY);
         }
         return false;
     }
 
-    private void pressLeft() {
-        for (Interactive interactive : interactives) {
-            interactive.pressedLeft();
+    private void touchDownCowboy(int screenX, int screenY) {
+        if (screenX <= Gdx.graphics.getWidth() / 2) {
+            player.pressedLeft();
+        } else {
+            if(screenY >= Gdx.graphics.getHeight() - Gdx.graphics.getHeight() / 5) {
+                player.shoot();
+            }
+            else {
+                player.pressedRight();
+            }
         }
     }
 
-    private void pressRight() {
-        for (Interactive interactive : interactives) {
-            interactive.pressedRight();
-        }
+    private boolean touchDownMilitia(int screenX, int screenY) {
+        return false;
     }
-
-    private void shoot() {
-        for (Interactive interactive : interactives) {
-            interactive.shoot();
-        }
-    }
-
 }

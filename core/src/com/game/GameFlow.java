@@ -3,11 +3,9 @@ package com.game;
 import com.badlogic.ashley.signals.Signal;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.scenes.scene2d.Stage;
-import com.game.buildCityMenu.BuildCityPointsVO;
-import com.game.buildCityMenu.CityInfoResultsPanel;
 import com.game.buildCityMenu.Menu;
 import com.game.miniGame.MinigameInputHandler;
-import com.game.miniGame.test.GameWatchGame;
+import com.game.miniGame.GameWatchGame;
 import com.game.signal.EventListener;
 import com.game.signal.SignalListener;
 
@@ -20,18 +18,24 @@ public class GameFlow implements SignalListener {
     public void start() {
         currentStage.dispose();
         currentStage = new Stage();
+
+        launchMinigame();
+
+        //launchMenu();
+    }
+
+    private void launchMinigame() {
+        Gdx.input.setInputProcessor(minigameInputHandler);
+        GameWatchGame minigame = new GameWatchGame(currentStage, minigameInputHandler);
+        onChangeScreen.dispatch(minigame);
+    }
+
+    private void launchMenu() {
         Gdx.input.setInputProcessor(currentStage);
         Menu menu = new Menu(currentStage, cityInfoVO);
         onChangeScreen.dispatch(menu);
 
         menu.onFinished.add(new EventListener(this));
-
-
-
-//        Gdx.input.setInputProcessor(minigameInputHandler);
-//        GameWatchGame minigame = new GameWatchGame(currentStage, minigameInputHandler);
-//        onChangeScreen.dispatch(minigame);
-
     }
 
     @Override
