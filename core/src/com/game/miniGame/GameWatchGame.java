@@ -7,12 +7,14 @@ import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.game.AssetsFactory;
+import com.game.CityInfoVO;
 import com.game.miniGame.Config;
 import com.game.miniGame.MinigameInputHandler;
 import com.game.miniGame.board.BoardVO;
 import com.game.miniGame.board.GameBoard;
 import com.game.miniGame.board.GameScreenPos;
 import com.game.miniGame.characters.Cowboy;
+import com.game.miniGame.characters.militia.MilitiaController;
 import com.game.miniGame.characters.ufos.UfoFactory;
 import com.game.miniGame.characters.zombies.ZombieFactory;
 
@@ -30,13 +32,14 @@ public class GameWatchGame implements Screen {
     private final UfoFactory ufoFactory;
     private final MiniGameUpdater updater;
     private Stage stage;
-    private com.game.miniGame.characters.Cowboy cowboy;
+    private Cowboy cowboy;
+    private MilitiaController militiaController;
     private final int numMaxUfo = 1;
 
     private Label timeCounter;
     private float mSecsPassed = 0;
 
-    public GameWatchGame(Stage stage, MinigameInputHandler minigameInputHandler) {
+    public GameWatchGame(Stage stage, MinigameInputHandler minigameInputHandler, CityInfoVO cityInfoVO) {
         this.stage = stage;
         this.minigameInputHandler = minigameInputHandler;
         GameBoard gameBoard = new GameBoard();
@@ -47,17 +50,26 @@ public class GameWatchGame implements Screen {
         this.ufoFactory = new UfoFactory(board);
         FactoriesVO factories = new FactoriesVO(zombieFactory, ufoFactory, wallFactory, houseFactory);
         OrchestraConductor orchestraConductor = new OrchestraConductor(factories);
-        updater = new MiniGameUpdater(stage, factories, numMaxUfo, orchestraConductor);
         createCowboy(board);
+        createMilitia(board, cityInfoVO.getMilitiaLevel());
+        updater = new MiniGameUpdater(stage, factories, numMaxUfo, orchestraConductor, militiaController);
+        minigameInputHandler.subscribe(cowboy, militiaController);
         createWalls();
         createHouses();
         createUI();
     }
 
+    private void createMilitia(BoardVO board, int militiaLevel) {
+        militiaController = new MilitiaController(board, militiaLevel);
+        stage.addActor(militiaController.getMilitia());
+        for(Image img : militiaController.getSelectors()) {
+            stage.addActor(img);
+        }
+    }
+
     private void createCowboy(BoardVO board) {
         cowboy = new Cowboy(AssetsFactory.instance().getCowboyBW(), board);
         stage.addActor(cowboy);
-        minigameInputHandler.subscribe(cowboy);
     }
 
     private void createWalls() {
@@ -130,5 +142,8 @@ public class GameWatchGame implements Screen {
 
     @Override
     public void dispose() {
+        militiaController.dispose();
+        ufoFactory.dispose();
+        zombieFactory.dispose();
     }
 }

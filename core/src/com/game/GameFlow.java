@@ -26,7 +26,7 @@ public class GameFlow implements SignalListener {
 
     private void launchMinigame() {
         Gdx.input.setInputProcessor(minigameInputHandler);
-        GameWatchGame minigame = new GameWatchGame(currentStage, minigameInputHandler);
+        GameWatchGame minigame = new GameWatchGame(currentStage, minigameInputHandler, cityInfoVO);
         onChangeScreen.dispatch(minigame);
     }
 

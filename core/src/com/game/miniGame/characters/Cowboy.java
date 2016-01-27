@@ -3,6 +3,8 @@ package com.game.miniGame.characters;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
+import com.game.miniGame.board.BoardVO;
+import com.game.miniGame.board.GameScreenPos;
 import com.game.miniGame.characters.ufos.Ufo;
 import com.game.miniGame.Config;
 import com.game.miniGame.board.GameBoard;
@@ -10,11 +12,11 @@ import com.game.miniGame.board.GameBoard;
 public class Cowboy extends Image{
 
     private final GameBoard gameBoard;
-    private final com.game.miniGame.board.GameScreenPos gameScreenPos;
+    private final GameScreenPos gameScreenPos;
 
     private int pos = 8;
 
-    public Cowboy(Texture texture, com.game.miniGame.board.BoardVO board) {
+    public Cowboy(Texture texture, BoardVO board) {
         super(texture);
         this.gameBoard = board.gameBoard;
         this.gameScreenPos = board.gameScreenPos;

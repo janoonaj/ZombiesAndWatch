@@ -2,7 +2,10 @@ package com.game.miniGame.miniGameEngine;
 
 import com.badlogic.ashley.signals.Signal;
 import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.game.miniGame.characters.Side;
+import com.game.miniGame.characters.militia.MilitiaController;
 import com.game.miniGame.characters.ufos.Ufo;
+import com.game.miniGame.characters.ufos.UfoFactory;
 import com.game.miniGame.characters.zombies.ZombieFactory;
 import com.game.signal.EventListener;
 import com.game.signal.SignalListener;
@@ -11,35 +14,38 @@ import java.util.Random;
 
 public class MiniGameUpdater implements SignalListener {
 
-    private Stage stage;
-    private ZombieFactory zombieFactory;
-    private com.game.miniGame.characters.ufos.UfoFactory ufoFactory;
-    private OrchestraConductor orchestraConductor;
+    private final MilitiaController militiaController;
+    private final Stage stage;
+    private final ZombieFactory zombieFactory;
+    private final UfoFactory ufoFactory;
+    private final OrchestraConductor orchestraConductor;
     private final int numMaxUFO;
     private int currentNumUFO = 0;
 
-    public MiniGameUpdater(Stage stage, FactoriesVO factories, int numMaxUFO, OrchestraConductor orchestraConductor) {
+    public MiniGameUpdater(Stage stage, FactoriesVO factories, int numMaxUFO, OrchestraConductor orchestraConductor, MilitiaController militiaController) {
         this.stage = stage;
         this.zombieFactory = factories.zombieFactory;
         this.ufoFactory = factories.ufoFactory;
         this.numMaxUFO = numMaxUFO;
         this.orchestraConductor = orchestraConductor;
+        this.militiaController = militiaController;
     }
 
     public void render(float delta) {
         if (zombieFactory.getMetronomeLeft().update(delta)) {
-            createZombies(com.game.miniGame.characters.Side.LEFT);
+            createZombies(Side.LEFT);
         }
         if (zombieFactory.getMetronomeRight().update(delta)) {
-            createZombies(com.game.miniGame.characters.Side.RIGHT);
+            createZombies(Side.RIGHT);
         }
         if (ufoFactory.getMetronome().update(delta)) {
             createUfo();
         }
         orchestraConductor.update(delta);
+        militiaController.getMetronome().update(delta);
     }
 
-    private void createZombies(com.game.miniGame.characters.Side side) {
+    private void createZombies(Side side) {
         int probabilityCreateZombie = 30;
         int randCreateZombies = new Random().nextInt(99) + 1;
         if (randCreateZombies <= probabilityCreateZombie) {
@@ -58,7 +64,7 @@ public class MiniGameUpdater implements SignalListener {
         int randCreateUFO = new Random().nextInt(99) + 1;
         if (randCreateUFO <= probabilityCreateUFO) {
             currentNumUFO++;
-            Ufo newUfo = ufoFactory.createUfo(com.game.miniGame.characters.Side.random());
+            Ufo newUfo = ufoFactory.createUfo(Side.random());
             stage.addActor(newUfo);
             newUfo.onFlyAway.add(new EventListener(this));
             newUfo.onDestroyed.add(new EventListener(this));

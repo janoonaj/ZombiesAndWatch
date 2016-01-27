@@ -13,6 +13,7 @@ public class Metronome {
     private float newUpdateTimeAccelerated = 0f;
     List<Rhythmical> subscribers = new ArrayList<Rhythmical>();
     List<Rhythmical> subscribersToRemove = new ArrayList<Rhythmical>();
+    private boolean enabled = true;
 
     public Metronome(float updateTime) {
         this.updateTime = updateTime;
@@ -20,6 +21,7 @@ public class Metronome {
     }
 
     public boolean update(float delta) {
+        if(!enabled) return false;
         currentTime += delta;
         if(currentTime >= updateTime) {
             currentTime = 0f;
@@ -46,7 +48,9 @@ public class Metronome {
 
     private void removeElements() {
         for(Rhythmical subscriberToRemove : subscribersToRemove) {
-            subscribers.remove(subscriberToRemove);
+            if(subscribers.contains(subscribersToRemove)) {
+                subscribers.remove(subscriberToRemove);
+            }
         }
         subscribersToRemove.clear();
     }
@@ -64,6 +68,17 @@ public class Metronome {
 
     public void accelerate(float percentage) {
         newUpdateTimeAccelerated = updateTime - ((updateTime / 100 ) * percentage);
+    }
+
+    public void reset() {
+        currentTime = 0;
+    }
+
+    //Don't allow any other iteration EVER
+    public void kill() {
+        enabled = false;
+        subscribersToRemove.clear();
+        subscribers.clear();
     }
 }
 

@@ -29,6 +29,10 @@ public class GameScreenPos {
         return new Vector2(xAt(boardPos), screenYCenter + cellSideLength);
     }
 
+    public Vector2 getScreen2Militia(int boardPos) {
+        return new Vector2(xAt(boardPos), screenYCenter + cellSideLength*2);
+    }
+
     public Vector2 getLeftEdgeSceenPos(int boardPos) {
         return new Vector2(xLeftEdgeOf(boardPos), screenYCenter);
     }

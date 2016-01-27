@@ -7,12 +7,13 @@ import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.game.miniGame.Config;
 import com.game.miniGame.board.BoardVO;
 import com.game.miniGame.board.GameBoard;
+import com.game.miniGame.characters.Rhythmical;
 import com.game.miniGame.characters.Side;
 import com.game.miniGame.scenario.Population;
 
 import java.util.Random;
 
-public class Zombie extends Group implements com.game.miniGame.characters.Rhythmical {
+public class Zombie extends Group implements Rhythmical {
     private final com.game.miniGame.board.GameScreenPos gameScreenPos;
     protected Image img;
     protected int boardPos;

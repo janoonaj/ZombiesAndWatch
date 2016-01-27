@@ -6,6 +6,8 @@ public class Config {
     //Time in secs
     public static final float timeZombie = 2f;
     public static final float timeOvni = 0.8f;
+    public static final float timeMilitia = 2f;
+    public static final float timeIncreaseMilitiaPerLevel = -0.2f;
 
     //Damage
     public static final int cowboyDamage = 10;

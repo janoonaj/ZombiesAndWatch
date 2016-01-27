@@ -105,4 +105,9 @@ public class ZombieFactory implements SignalListener {
         metronomeRight.unsubscribe(zombie);
         board.gameBoard.removeZombie(zombie);
     }
+
+    public void dispose() {
+        metronomeLeft.kill();
+        metronomeRight.kill();
+    }
 }
