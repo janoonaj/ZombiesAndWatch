@@ -48,7 +48,7 @@ public class Metronome {
 
     private void removeElements() {
         for(Rhythmical subscriberToRemove : subscribersToRemove) {
-            if(subscribers.contains(subscribersToRemove)) {
+            if(subscribers.contains(subscriberToRemove)) {
                 subscribers.remove(subscriberToRemove);
             }
         }
