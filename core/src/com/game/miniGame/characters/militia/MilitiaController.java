@@ -1,5 +1,7 @@
 package com.game.miniGame.characters.militia;
 
+import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.math.Vector2;
 import com.game.AssetsFactory;
 import com.game.miniGame.Config;
 import com.game.miniGame.Metronome;
@@ -32,8 +34,10 @@ public class MilitiaController {
     private void createControllers() {
         //Positions 6..10
         for(int i = 0; i < 5; i++) {
-            Selector selector = new Selector(AssetsFactory.instance().getMilitiaMark(),
-                    gameScreenPos.getScreen2Militia(FIRST_POSITION + i), FIRST_POSITION + i);
+            Texture txt = AssetsFactory.instance().getMilitiaMark();
+            Vector2 posSelector =  gameScreenPos.getScreen2Militia(FIRST_POSITION + i);
+            posSelector.x -= txt.getWidth() / 2;
+            Selector selector = new Selector(txt, posSelector, FIRST_POSITION + i);
             clickableSelectors.add(selector);
             selector.setVisible(false);
         }

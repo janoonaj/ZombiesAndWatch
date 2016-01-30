@@ -3,6 +3,7 @@ package com.game.miniGame.characters;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
+import com.game.Logger;
 import com.game.miniGame.board.BoardVO;
 import com.game.miniGame.board.GameScreenPos;
 import com.game.miniGame.characters.ufos.Ufo;
@@ -45,7 +46,7 @@ public class Cowboy extends Image{
 
     private void updateScreenPos() {
         Vector2 newPos = gameScreenPos.getScreen2Cowboy(pos);
-        this.setPosition(newPos.x - this.getImageWidth() / 2, newPos.y);
+        this.setPosition(newPos.x - this.getWidth() / 2, newPos.y);
     }
 
     //Return true if a zombie is hit

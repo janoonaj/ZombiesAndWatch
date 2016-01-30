@@ -56,6 +56,6 @@ public class Militia extends Image implements Rhythmical {
 
     private void updateScreenPos() {
         Vector2 newPos = gameScreenPos.getScreen2Militia(pos);
-        this.setPosition(newPos.x - this.getImageWidth() / 2, newPos.y);
+        this.setPosition(newPos.x - this.getWidth() / 2, newPos.y);
     }
 }
