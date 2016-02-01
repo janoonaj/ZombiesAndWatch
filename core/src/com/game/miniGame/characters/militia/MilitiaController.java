@@ -16,16 +16,14 @@ public class MilitiaController {
     private final int FIRST_POSITION = 6;
 
     private final Militia militia;
-    private final GameBoard gameBoard;
     private final GameScreenPos gameScreenPos;
     private final ArrayList<Selector> clickableSelectors = new ArrayList<Selector>();
     private final Metronome metronome;
 
 
     public MilitiaController(BoardVO board, int militiaLevel) {
-        gameBoard = board.gameBoard;
         gameScreenPos = board.gameScreenPos;
-        militia = new Militia(AssetsFactory.instance().getMilitia(), militiaLevel, gameScreenPos);
+        militia = new Militia(AssetsFactory.instance().getMilitia(), militiaLevel, board);
         metronome = new Metronome(Config.timeMilitia - Config.timeIncreaseMilitiaPerLevel * (militiaLevel - 1));
         metronome.subscribe(militia);
         createControllers();

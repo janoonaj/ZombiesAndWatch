@@ -11,16 +11,16 @@ import com.game.miniGame.Config;
 import com.game.miniGame.board.GameBoard;
 
 public class Cowboy extends Image{
-
+    private int pos = 8;
     private final GameBoard gameBoard;
     private final GameScreenPos gameScreenPos;
-
-    private int pos = 8;
+    private final PlayerBehaviour playerBehaviour;
 
     public Cowboy(Texture texture, BoardVO board) {
         super(texture);
-        this.gameBoard = board.gameBoard;
-        this.gameScreenPos = board.gameScreenPos;
+        gameBoard = board.gameBoard;
+        gameScreenPos = board.gameScreenPos;
+        playerBehaviour = new PlayerBehaviour(board.gameBoard);
         updateScreenPos();
     }
 
@@ -28,17 +28,17 @@ public class Cowboy extends Image{
         doStuff(pos-1);
     }
     public void pressedRight() {
-        doStuff(pos+1);
+        doStuff(pos + 1);
     }
     public void shoot() {
-        if(attackZombie(pos)) return;
-        if(attackUfo()) return;
-        if(attackZombie(pos + 1)) return;
-        if(attackZombie(pos-1)) return;
+        if(playerBehaviour.attackZombie(pos, Config.cowboyDamage)) return;
+        if(playerBehaviour.attackUfo(pos, Config.cowboyDamage)) return;
+        if(playerBehaviour.attackZombie(pos + 1, Config.cowboyDamage)) return;
+        if(playerBehaviour.attackZombie(pos - 1, Config.cowboyDamage)) return;
     }
 
     private void doStuff(int nextPos) {
-        if(attackZombie(nextPos)) return;
+        if(playerBehaviour.attackZombie(nextPos, Config.cowboyDamage)) return;
         if(nextPos == gameBoard.nonPlayableLeftEdge || nextPos == gameBoard.nonPlayableRightEdge) return;
         pos = nextPos;
         updateScreenPos();
@@ -48,20 +48,4 @@ public class Cowboy extends Image{
         Vector2 newPos = gameScreenPos.getScreen2Cowboy(pos);
         this.setPosition(newPos.x - this.getWidth() / 2, newPos.y);
     }
-
-    //Return true if a zombie is hit
-    private boolean attackZombie(int nextPos) {
-        if(gameBoard.getZombies(nextPos).size() == 0) return false;
-        gameBoard.getZombies(nextPos).get(0).damage(Config.cowboyDamage);
-        return true;
-    }
-
-    //Return true if there is UFo in the same pos. Attack it
-    private boolean attackUfo() {
-        Ufo ufo = gameBoard.getUfo(pos);
-        if(ufo == null) return false;
-        ufo.damage(Config.cowboyDamage);
-        return true;
-    }
-
 }

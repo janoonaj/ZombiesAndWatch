@@ -12,6 +12,7 @@ public class Config {
     //Damage
     public static final int cowboyDamage = 10;
     public static final int zombieDamage = 10;
+    public static final int militiaDamage = 10;
 
     //Health
     public static final int healthZombie = 1;
